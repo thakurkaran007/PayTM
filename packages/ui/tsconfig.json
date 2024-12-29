@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "dist",
     "paths": {
-      "@repo/ui/*": ["./*"]
+      "@repo/ui/*": ["./*"],
+      "@repo/lib/*": ["./src/lib/*"]
     }
   },
   "include": ["src"],
