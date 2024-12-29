@@ -15,7 +15,7 @@
       "inputs": ["apps/web/**/*.{ts,tsx}", "packages/ui/**/*.{ts,tsx}"]
     },
     "dev": {
-      "cache": false,
+      "cache": true,
       "persistent": true,
       "inputs": ["apps/web/**/*", "packages/ui/**/*"]
     }

@@ -1,10 +1,11 @@
+import path from "path";
 import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
   content: [
-	"./app/**/*.{ts,tsx}",
-	"../packages/ui/src/**/*.{ts,tsx}", // Include shared components
+    path.join(__dirname, "./app/**/*.{ts,tsx}"),
+    path.join(__dirname, "../packages/ui/src/**/*.{ts,tsx}"), // Adjusted for shared UI
   ],
   
   theme: {

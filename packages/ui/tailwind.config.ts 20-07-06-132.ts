@@ -1,11 +1,12 @@
+import path from "path";
 import type { Config } from "tailwindcss";
 
 export default {
     darkMode: ["class"],
     content: [
-		"./src/**/*.{ts,tsx}",
-		"../../apps/web/app/**/*.{ts,tsx}",
-	  ],
+		path.join(__dirname, "./src/**/*.{ts,tsx}"),
+		path.join(__dirname, "../../apps/web/app/**/*.{ts,tsx}"), // Adjust path
+	],
   theme: {
   	extend: {
   		colors: {
