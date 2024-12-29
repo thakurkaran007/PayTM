@@ -4,7 +4,11 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./button": "./src/components/button.tsx"
+    "./button": "./src/components/button.tsx",
+    "./card": "./src/components/card.tsx",
+    "./form": "./src/components/form.tsx",
+    "./input": "./src/components/input.tsx",
+    "./label": "./src/components/label.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
