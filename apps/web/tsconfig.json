@@ -2,8 +2,10 @@
   "extends": "@repo/typescript-config/nextjs.json",
   "compilerOptions": {
     "paths": {
+      "@/*": ["./*"],
       "@repo/ui/*": ["../../packages/ui/*"],
       "@repo/lib/*": ["../../packages/ui/src/lib/*"],
+      "@repo/db/*": ["../../packages/db/*"]
     },
     "plugins": [
       {

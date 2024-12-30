@@ -1,3 +1,17 @@
+import { db } from "@repo/db/index";
 export const getUserByEmail = async (email: string) => {
-    // const user = await db
+    try {
+        const user = await db.user.findUnique({ where: { email } });
+        return user;
+    } catch (error) {
+        return null;
+    }
+}
+export const getUserByID = async (id: string) => {
+    try {
+        const user = await db.user.findUnique({ where: { id } });
+        return user;
+    } catch (error) {
+        return null;
+    }
 }
