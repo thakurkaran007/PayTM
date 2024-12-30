@@ -5,7 +5,7 @@ export default {
   darkMode: ["class"],
   content: [
     path.join(__dirname, "./app/**/*.{ts,tsx}"),
-    path.join(__dirname, "../packages/ui/src/**/*.{ts,tsx}"), // Adjusted for shared UI
+    path.join(__dirname, "../../packages/ui/src/**/*.{ts,tsx}"), // Adjusted for shared UI
   ],
   
   theme: {
