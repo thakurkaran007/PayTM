@@ -4,11 +4,12 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./button": "./src/components/button.tsx",
-    "./card": "./src/components/card.tsx",
-    "./form": "./src/components/form.tsx",
-    "./input": "./src/components/input.tsx",
-    "./label": "./src/components/label.tsx"
+    "./client": "./db/index.ts",
+    "./button": "./ui/src/components/button.tsx",
+    "./card": "./ui/src/components/card.tsx",
+    "./form": "./ui/src/components/form.tsx",
+    "./input": "./ui/src/components/input.tsx",
+    "./label": "./ui/src/components/label.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

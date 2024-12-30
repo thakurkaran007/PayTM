@@ -14,8 +14,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@repo/ui/*": ["./*"],
-      "@repo/lib/*": ["./src/lib/*"]
+      "@repo/ui/*": ["./ui/*"],
+      "@repo/lib/*": ["./ui/src/lib/*"]
     }
   },
   "include": ["src"],
