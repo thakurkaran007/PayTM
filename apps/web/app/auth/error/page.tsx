@@ -1,8 +1,8 @@
+import ErrorCard from "@/components/form/ErrorCard";
+
 const Error = () => {
     return (
-        <div>
-            Error
-        </div>
+        <ErrorCard/>
     )
 }
 export default Error;

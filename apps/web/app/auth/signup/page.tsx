@@ -1,7 +1,9 @@
+import { SignupForm } from "@/components/form/SignupForm";
+
 const Signup = () => {
     return (
-        <div>
-            SignUP
+        <div className="flex items-center justify-center h-screen">
+            <SignupForm />
         </div>
     )
 }
