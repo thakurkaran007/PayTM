@@ -104,7 +104,7 @@ export const SignupForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} type="email" placeholder="abc@gmail.com" disabled={!!otp || verified} />
+                    <Input {...field} type="email" placeholder="abc@gmail.com" disabled={came || verified} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
