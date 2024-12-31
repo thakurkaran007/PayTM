@@ -1,5 +1,5 @@
 "use server";
-// import { signIn } from "@/auth";
+import { signIn } from "@/auth";
 import { getUserByEmail } from "@/data/user";
 import { sendVerificationMail } from "@/lib/mail";
 import { generatetVerififcationToken } from "@/lib/tokens";
@@ -34,11 +34,11 @@ export const login = async(values: z.infer<typeof LoginSchema>) => {
     }
 
     try {
-        // await signIn("credentials", {
-        //     email,  
-        //     password,
-        //     redirectTo: DEFAULT_LOGIN_REDIRECT
-        // })
+        await signIn("credentials", {
+            email,  
+            password,
+            redirectTo: DEFAULT_LOGIN_REDIRECT
+        })
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

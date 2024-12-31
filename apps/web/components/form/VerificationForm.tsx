@@ -32,7 +32,7 @@ export const VerificationForm = () => {
 
     useEffect(() => {
         onSubmit();
-    }, [token]);
+    }, [token, onSubmit]);
     return <div className="flex items-center justify-center">
         <CardWrapper
             headerLabel="Confirm your verification"

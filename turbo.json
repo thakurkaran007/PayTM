@@ -3,7 +3,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["**/*", ".env*"],
+      "inputs": ["**/*", ".env*", "RESEND_KEY", "DOMAIN"],
       "outputs": ["apps/web/.next/**", "!apps/web/.next/cache/**", "packages/ui/dist/**"]
     },
     "lint": {
@@ -17,7 +17,7 @@
     "dev": {
       "cache": true,
       "persistent": true,
-      "inputs": ["apps/web/**/*", "packages/ui/**/*"]
+      "inputs": ["apps/web/**/*", "packages/ui/**/*", ".env*", "RESEND_KEY", "DOMAIN"]
     }
   }
 }
