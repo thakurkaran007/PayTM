@@ -8,6 +8,7 @@ import { LoginSchema } from "@/schema";
 import { AuthError } from "next-auth";
 import * as z from "zod";
 import bcrypt from "bcryptjs";
+import { getVerificationTokenByEmail } from "@/data/verification-token";
 
 export const login = async(values: z.infer<typeof LoginSchema>) => {
     const validation = LoginSchema.safeParse(values);
@@ -31,8 +32,18 @@ export const login = async(values: z.infer<typeof LoginSchema>) => {
         const verificationToken = await generatetVerififcationToken(email);
         await sendVerificationMail(email, verificationToken.token);
         return { success: "Confirmation email Sent" };
+    } else {
+        const token = await getVerificationTokenByEmail(email);
+        if (token) {
+            const hasExpired = new Date(token.expires) < new Date();
+            if (hasExpired) {
+                const verificationToken = await generatetVerififcationToken(email);
+                await sendVerificationMail(email, verificationToken.token);
+                return { success: "Confirmation email Sent" };
+            }
+        }
     }
-
+    
     try {
         await signIn("credentials", {
             email,  

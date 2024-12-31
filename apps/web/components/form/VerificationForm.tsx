@@ -33,7 +33,7 @@ export const VerificationForm = () => {
     useEffect(() => {
         onSubmit();
     }, [token, onSubmit]);
-    return <div className="flex items-center justify-center">
+    return (
         <CardWrapper
             headerLabel="Confirm your verification"
             backButtonLabel="Back to login"
@@ -45,5 +45,5 @@ export const VerificationForm = () => {
                 { error && !success && <FormError message={error} /> }
             </div>
         </CardWrapper>
-    </div>
+    )
 }
