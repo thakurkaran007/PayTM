@@ -1,7 +1,7 @@
 "use client"
 
-import { BackButton } from "../buttons/BackButton"
-import { Header } from "../buttons/Header"
+import { BackButton } from "../button/BackButton"
+import { Header } from "../button/Header"
 import { Card, CardHeader } from "@repo/ui/src/components/card"
 
 const ErrorCard = () => {

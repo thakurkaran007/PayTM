@@ -2,12 +2,11 @@ import path from "path";
 import type { Config } from "tailwindcss";
 
 export default {
-  darkMode: ["class"],
-  content: [
-    path.join(__dirname, "./app/**/*.{ts,tsx}"),
-    path.join(__dirname, "../../packages/ui/src/**/*.{ts,tsx}"), // Adjusted for shared UI
-  ],
-  
+    darkMode: ["class"],
+    content: [
+		path.join(__dirname, "./app/**/*.{ts,tsx}"),
+		path.join(__dirname, "../../packages/ui/src/**/*.{ts,tsx}"), // Adjusted for shared UI
+	  ],
   theme: {
   	extend: {
   		colors: {

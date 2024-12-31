@@ -17,7 +17,6 @@ import { useRouter } from "next/navigation";
 
 export const SignupForm = () => {
   const router = useRouter();
-  const [otp] = useState<string>("");
   const [came, setCame] = useState<boolean>(false);
   const [verified, setVerified] = useState<boolean>(false);
   const [success, setSuccess] = useState<string>("");

@@ -1,8 +1,8 @@
 "use client"
 
-import { BackButton } from "../buttons/BackButton";
-import { Header } from "../buttons/Header";
-import { Social } from "../buttons/Social";
+import { BackButton } from "../button/BackButton";
+import { Header } from "../button/Header";
+import { Social } from "../button/Social";
 import { Card, CardContent, CardFooter, CardHeader } from "@repo/ui/src/components/card";
 
 interface CardWrapperProps {
