@@ -1,5 +1,6 @@
 "use client";
 
+import UserButton from "@/components/auth/user-button";
 import PathButton from "@/components/button/PathButton";
 
 const Navbar = () => {
@@ -10,8 +11,8 @@ const Navbar = () => {
                 <PathButton path="/admin" label="Admin" />
                 <PathButton path="/user" label="User" />
             </div>  
-            <p>User Button</p>
-        </nav>
+            <UserButton/>
+        </nav>  
     )
 }
 export default Navbar;
