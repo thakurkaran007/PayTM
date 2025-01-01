@@ -20,11 +20,11 @@ export const login = async(values: z.infer<typeof LoginSchema>) => {
     const { email, password } = validation.data;
 
     const existingUser = await getUserByEmail(email);
-    if (!existingUser) {
+    if (!existingUser || !existingUser.password) {
         return { error: "Email does not exist" };
     }
 
-    const passVerify = bcrypt.compareSync(password, existingUser.password);
+    const passVerify = bcrypt.compareSync(password, existingUser?.password);
     if (!passVerify) {
         return { error: "Wrong Password" };
     }
