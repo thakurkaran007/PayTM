@@ -1,9 +1,11 @@
 import { socketState } from "@/recoil/atoms";
 import { Button } from "@repo/ui/src/components/button";
+import { useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
 import { useRecoilState } from "recoil";
 
 const Video = () => {
+    const user = useSession().data?.user;
     const [socket, setSocket] = useRecoilState(socketState);
     const localRef = useRef<HTMLVideoElement>(null);
     const remoteRef = useRef<HTMLVideoElement>(null);
@@ -19,14 +21,16 @@ const Video = () => {
                 console.log("Connected");
                 setSocket(newSocket);
             }
-            
-            newSocket.send(JSON.stringify({type: "add-user"}));
-
+            newSocket.send(JSON.stringify({type: "add-user", id: user?.id}));
             newSocket.onclose = () => {
                 console.log("Disconnected");
                 setSocket(null);
             }
-            setSocket(newSocket);
+        } else {
+            socket.onmessage = (event) => {
+                const message = JSON.parse(event.data);
+                
+            }
         }
         return () => {
             socket?.close();
