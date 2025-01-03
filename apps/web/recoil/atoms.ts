@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const scoket = atom<WebSocket | null>({
+export const socketState = atom<WebSocket | null>({
     key: "socket",
     default: null
 });
