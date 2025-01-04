@@ -2,6 +2,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import { db } from "@repo/db/index";
 
 const wss = new WebSocketServer({ port: 8080 });
+console.log("server started on port 8080");
 
 interface User {
   socket: WebSocket;

@@ -1,14 +1,15 @@
 "use client";
 
-import { useCurrentUser } from "@/hooks/user-component";
 import { Avatar, AvatarImage, AvatarFallback } from "@repo/ui/src/components/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@repo/ui/src/components/dropdown-menu";
 import { FaUser } from "react-icons/fa";
 import { ExitIcon } from "@radix-ui/react-icons";
 import { signOut } from "next-auth/react";
+// import { useRecoilState } from "recoil";
+// import { currUser } from "@/recoil/atom";
 
 const UserButton = () => {
-    const user = useCurrentUser();
+    // const [user] = useRecoilState(currUser);
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
@@ -16,7 +17,7 @@ const UserButton = () => {
                     <AvatarFallback className="rounded-lg bg-sky-700">
                         <FaUser className=""/>
                     </AvatarFallback>
-                    <AvatarImage src={user?.image || ""}/>
+                    <AvatarImage src={""}/>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

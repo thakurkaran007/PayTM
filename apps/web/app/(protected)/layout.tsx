@@ -1,3 +1,4 @@
+
 import Navbar from "./_components/navbar";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {

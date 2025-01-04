@@ -1,41 +1,40 @@
-import { socketState } from "@/recoil/atoms";
+"use client";
+
+import { auth } from "@/auth";
+import { userSocket } from "@/jotai/atoms";
 import { Button } from "@repo/ui/src/components/button";
-import { useSession } from "next-auth/react";
-import { useEffect, useRef } from "react";
-import { useRecoilState } from "recoil";
+import { useAtom } from "jotai";
+import { useEffect, useRef, useState } from "react";
 
 const Video = () => {
-    const user = useSession().data?.user;
-    const [socket, setSocket] = useRecoilState(socketState);
+    const socket = useAtom(userSocket);
+    // const [pc, setPc] = useState<RTCPeerConnection | null>(null);
     const localRef = useRef<HTMLVideoElement>(null);
     const remoteRef = useRef<HTMLVideoElement>(null);
 
     const Start = () => {
+        // const Pc = new RTCPeerConnection();
+        // setPc(Pc);
+    };
 
-    }
+    // useEffect(() => {
+    //     if (!socket) {
+    //         const newSocket = new WebSocket("ws://localhost:8080");
+    //         newSocket.onopen = () => {
+    //             console.log("Connected");
+    //             setSocket(newSocket);
+    //             newSocket.send(JSON.stringify({ type: "add-user", id: user?.id }));
+    //         };
+    //         newSocket.onclose = () => {
+    //             console.log("Disconnected");
+    //             setSocket(null);
+    //         };
+    //     }
+    //     return () => {
+    //         socket?.close();
+    //     };
+    // }, [socket, user?.id]);
 
-    useEffect(() => {
-        if (!socket) {
-            const newSocket = new WebSocket("ws://localhost:8080");
-            newSocket.onopen = () => {
-                console.log("Connected");
-                setSocket(newSocket);
-            }
-            newSocket.send(JSON.stringify({type: "add-user", id: user?.id}));
-            newSocket.onclose = () => {
-                console.log("Disconnected");
-                setSocket(null);
-            }
-        } else {
-            socket.onmessage = (event) => {
-                const message = JSON.parse(event.data);
-                
-            }
-        }
-        return () => {
-            socket?.close();
-        }
-    }, [socket]);
 
     return (
         <div className="flex flex-col items-center justify-center h-screen space-y-4">
@@ -53,7 +52,8 @@ const Video = () => {
             <Button variant={"default"} onClick={Start}>
                 Start Web Cam
             </Button>
+        </div>
+    );
+};
 
-        </div>  
-    )
-}
+export default Video;

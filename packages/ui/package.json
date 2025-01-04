@@ -8,7 +8,8 @@
     "./card": "./src/components/card.tsx",
     "./form": "./src/components/form.tsx",
     "./input": "./src/components/input.tsx",
-    "./label": "./src/components/label.tsx"
+    "./label": "./src/components/label.tsx",
+    "./atoms": "./src/components/atoms.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
