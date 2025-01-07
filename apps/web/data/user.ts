@@ -1,4 +1,4 @@
-import { db } from "@repo/db/index";
+import { db } from "@repo/db/src";
 export const getUserByEmail = async (email: string) => {
     try {
         const user = await db.user.findUnique({ where: { email } });

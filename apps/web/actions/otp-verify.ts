@@ -1,7 +1,7 @@
 "use server";
 
 import { getVerificationTokenByEmail } from "@/data/verification-token";
-import { db } from "@repo/db";
+import { db } from "@repo/db/src/index";
 import bcrypt from "bcryptjs"
 
 export const verifyOtp = async (otp: string, email: string) => {

@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@repo/db";
+import { db } from "@repo/db/src/index";
 import bcrypt from "bcryptjs";
 import { SignUpSchema } from "@/schema";
 import * as z from "zod";

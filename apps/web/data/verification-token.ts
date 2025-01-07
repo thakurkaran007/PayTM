@@ -1,4 +1,4 @@
-import { db } from "@repo/db";
+import { db } from "@repo/db/src";
 
 export const getVerificationTokenByToken = async (token: string) => {
     try {

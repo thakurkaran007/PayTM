@@ -5,14 +5,12 @@
     "moduleResolution": "node",
     "target": "es2022",
     "composite": true,
-    "declaration": true,
-    "declarationMap": true,
     "skipLibCheck": true,
     "strict": true,
     "esModuleInterop": true,
     "rootDir": "./src",
     "baseUrl": ".",
-    "outDir": "dist",
+    "outDir": "./dist",
     "paths": {
       "@repo/db/*": ["packages/db/*"]
     }

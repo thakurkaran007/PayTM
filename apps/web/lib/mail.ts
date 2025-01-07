@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import bcrypt from "bcryptjs";
 import { getVerificationTokenByEmail } from "@/data/verification-token";
-import { db } from "@repo/db";
+import { db } from "@repo/db/src";
 
 const resend = new Resend(process.env.RESEND_KEY);
 
