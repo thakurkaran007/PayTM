@@ -17,10 +17,6 @@
       "@repo/db/*": ["packages/db/*"]
     }
   },
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node",
-  },
   "include": ["src/**/*", "src/user.ts"],
   "exclude": ["node_modules", "dist"]
 }
