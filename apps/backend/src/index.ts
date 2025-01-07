@@ -1,6 +1,6 @@
 import { UserRole } from '@prisma/client';
 import { WebSocketServer, WebSocket } from 'ws';
-import { getUser } from './user';
+import getUser from './user';
 
 const wss = new WebSocketServer({ port: 8080 });
 console.log('Server started on port 8080');

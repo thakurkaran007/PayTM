@@ -1,6 +1,6 @@
-import { db } from '@repo/db/src';
+import { db } from "@repo/db/src";
 
-export const getUser = async (id: string) => {
+const getUser = async (id: string) => {
   try {
     const user = await db.user.findUnique({
       where: { id },
@@ -21,3 +21,4 @@ export const getUser = async (id: string) => {
     throw new Error("Database error");
   }
 };
+export default getUser;

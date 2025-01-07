@@ -1,20 +1,25 @@
 {
   "compilerOptions": {
+    "lib": ["es2020"],
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "target": "es2022",
     "composite": true,
     "declaration": true,
     "declarationMap": true,
     "skipLibCheck": true,
     "strict": true,
     "esModuleInterop": true,
-    "module": "ESNext",
-    "target": "ES2022",
-    "moduleResolution": "node",
     "rootDir": "./src",
     "baseUrl": ".",
     "outDir": "dist",
     "paths": {
       "@repo/db/*": ["packages/db/*"]
     }
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
   },
   "include": ["src/**/*", "src/user.ts"],
   "exclude": ["node_modules", "dist"]

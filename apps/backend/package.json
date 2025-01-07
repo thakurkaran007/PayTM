@@ -4,17 +4,21 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-  "clean": "rm -rf dist",
-  "build": "npm run clean && tsc",
-  "dev": "npm run build && node dist/index.js",
-  "start:prod": "npm run build && NODE_ENV=production node dist/index.js"
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc",
+    "dev": "npm run build && node dist/index.js",
+    "start:prod": "npm run build && NODE_ENV=production node dist/index.js"
   },
+  "exports": {
+    "require": "./index.cjs",
+    "import": "./index.js"
+  },
+  "types": "./index.d.ts",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@repo/db": "*",
     "ws": "^8.18.0"
   },
   "devDependencies": {
