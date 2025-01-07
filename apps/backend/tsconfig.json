@@ -4,13 +4,18 @@
     "declaration": true,
     "declarationMap": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "strict": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "node",
     "rootDir": "./src",
+    "baseUrl": ".",
     "outDir": "dist",
     "paths": {
       "@repo/db/*": ["packages/db/*"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "src/user.ts"],
+  "exclude": ["node_modules", "dist"]
 }

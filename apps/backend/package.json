@@ -2,14 +2,19 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "tsc -b && node ./dist/index.js"
+  "clean": "rm -rf dist",
+  "build": "npm run clean && tsc",
+  "dev": "npm run build && node dist/index.js",
+  "start:prod": "npm run build && NODE_ENV=production node dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@repo/db": "*",
     "ws": "^8.18.0"
   },
   "devDependencies": {

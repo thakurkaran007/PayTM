@@ -1,39 +1,51 @@
 "use client";
 
-import { auth } from "@/auth";
-import { userSocket } from "@/jotai/atoms";
+import { getUser } from "@/hooks/getUser";
+import { onlineUsers, userSocket } from "@/jotai/atoms";
 import { Button } from "@repo/ui/src/components/button";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 
 const Video = () => {
-    const socket = useAtom(userSocket);
-    // const [pc, setPc] = useState<RTCPeerConnection | null>(null);
+    const [socket, setSocket] = useAtom(userSocket);
+    const [online, setOnline] = useAtom(onlineUsers);
+    const user = getUser();
+    const [pc, setPc] = useState<RTCPeerConnection | null>(null);
     const localRef = useRef<HTMLVideoElement>(null);
     const remoteRef = useRef<HTMLVideoElement>(null);
 
     const Start = () => {
-        // const Pc = new RTCPeerConnection();
-        // setPc(Pc);
+        const Pc = new RTCPeerConnection();
+        setPc(Pc);
     };
 
-    // useEffect(() => {
-    //     if (!socket) {
-    //         const newSocket = new WebSocket("ws://localhost:8080");
-    //         newSocket.onopen = () => {
-    //             console.log("Connected");
-    //             setSocket(newSocket);
-    //             newSocket.send(JSON.stringify({ type: "add-user", id: user?.id }));
-    //         };
-    //         newSocket.onclose = () => {
-    //             console.log("Disconnected");
-    //             setSocket(null);
-    //         };
-    //     }
-    //     return () => {
-    //         socket?.close();
-    //     };
-    // }, [socket, user?.id]);
+    useEffect(() => {
+        if (!socket) {
+            const newSocket = new WebSocket("ws://localhost:8080");
+            newSocket.onopen = () => {
+                console.log("Connected");
+                setSocket(newSocket);
+                newSocket.send(JSON.stringify({ type: "add-user", user: user }));
+            };
+            newSocket.onclose = () => {
+                console.log("Disconnected");
+                setSocket(null);
+            };
+        }
+        else {
+            socket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                console.log("data: ", data);
+                switch (data.type) {
+                    case 'getUsers':
+                        setOnline((prevUsers) => prevUsers.filter((x) => x.id !== user?.id));
+                }
+            }
+        }
+        return () => {
+            socket?.close();
+        };
+    }, [socket, user?.id]);
 
 
     return (

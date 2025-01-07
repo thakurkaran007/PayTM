@@ -4,9 +4,7 @@
     "private": true,
     "type": "module",
     "exports": {
-      ".": {
-        "import": "./index.ts"
-      }
+      "./index": "./index.ts"
     },
     "dependencies": {
       "@prisma/client": "^6.1.0"
