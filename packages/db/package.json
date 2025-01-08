@@ -5,7 +5,8 @@
     "type": "module",
     "exports": {
       "./src": "./src",
-      "./dist": "./dist/index.js"
+      "./dist": "./dist/index.js",
+      "./dist/index.js": "./dist/index.js"
     },
     "dependencies": {
       "@prisma/client": "^6.1.0"
