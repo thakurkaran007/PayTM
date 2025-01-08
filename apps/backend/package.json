@@ -4,6 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc -b",
+    "dev": "npm run build && node ./dist/index.js"
   },
   "types": "./index.d.ts",
   "keywords": [],
