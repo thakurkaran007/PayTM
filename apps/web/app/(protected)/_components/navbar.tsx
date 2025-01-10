@@ -1,42 +1,16 @@
 "use client";
-
-import { onlineUsers, userSocket } from "@/jotai/atoms";
-import { useAtom } from "jotai";
-import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/avatar";
-import { FaUser } from "react-icons/fa";
-import { Button } from "@repo/ui/src/components/button";
-import { signOut } from "next-auth/react";
-import { getUser } from "@/hooks/getUser";
-import { useEffect } from "react";
+import UserButton from "@/components/auth/user-button";
+import { FaVideo } from "react-icons/fa";
 
 const Navbar = () => {
-    const user = getUser();
-    const[socket] = useAtom(userSocket);
-    const [users, setUsers] = useAtom(onlineUsers);
-
-    useEffect(() => {
-        if (socket) {
-            console.log("onlineUsers: ", users);
-        }
-    }, [users]);
-
     return (
         <nav className="bg-secondary flex justify-between items-center p-4 rounded-xl w-[600xl] shadow-sm">
-            <div className="flex gap-x-2">
-                {users.length > 0 &&
-                    users.map((user, i) => (
-                        <Avatar key={i}>
-                            <AvatarFallback className="rounded bg-sky-500">
-                                <FaUser />
-                            </AvatarFallback>
-                            <AvatarImage src={user.image || ""} />
-                        </Avatar>
-                    ))}
+            <div className="flex items-center justify-center space-x-1">
+                <FaVideo className="text-3xl text-accent" />
+                <div>VideoCall</div>
             </div>
-            <div>
-                <Button variant="default" onClick={() => signOut()}>
-                    SignOut
-                </Button>
+            <div>   
+                <UserButton />
             </div>
         </nav>
     );
