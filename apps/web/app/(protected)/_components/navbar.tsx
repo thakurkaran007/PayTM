@@ -14,12 +14,18 @@ const Navbar = () => {
     const[socket] = useAtom(userSocket);
     const [users, setUsers] = useAtom(onlineUsers);
 
+    useEffect(() => {
+        if (socket) {
+            console.log("onlineUsers: ", users);
+        }
+    }, [users]);
+
     return (
         <nav className="bg-secondary flex justify-between items-center p-4 rounded-xl w-[600xl] shadow-sm">
             <div className="flex gap-x-2">
                 {users.length > 0 &&
-                    users.map((user) => (
-                        <Avatar key={user.id}>
+                    users.map((user, i) => (
+                        <Avatar key={i}>
                             <AvatarFallback className="rounded bg-sky-500">
                                 <FaUser />
                             </AvatarFallback>

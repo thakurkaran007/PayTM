@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist && rm -rf tsconfig.tsbuildinfo",
     "build": "npm run clean && tsc -b",
     "dev": "npm run build && node ./dist/index.js"
   },

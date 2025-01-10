@@ -29,7 +29,6 @@ wss.on('connection', (socket: WebSocket) => {
 
       switch (message.type) {
         case 'add-user':
-          if (!onlineUsers.some((user) => user.user.id === message.id)) {
             const x = await getUser(message.id);
             if (x) {
               onlineUsers.push({ socket, user: x });
@@ -37,7 +36,6 @@ wss.on('connection', (socket: WebSocket) => {
             } else {
               console.error(`User with ID ${message.id} could not be added.`);
             }
-          }
           break;
 
         default:
@@ -56,9 +54,11 @@ wss.on('connection', (socket: WebSocket) => {
 });
 
 function broadcastUserList() {
-  const userList = onlineUsers.map((x) => ({ user: x.user }));
+  // Destructure the user object while broadcasting
+  const userList = onlineUsers.map(({ user }) => ({ id: user.id, ...user }));
   broadcast({ type: 'getUsers', users: userList });
 }
+
 
 function broadcast(message: object) {
   const data = JSON.stringify(message);
