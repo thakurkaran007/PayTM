@@ -1,5 +1,6 @@
 import * as z from 'zod';
 import { ExtendedUser } from './next-auth';
+import WebSocket from 'ws'
 export const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(1),
@@ -12,6 +13,14 @@ export const SignUpSchema = z.object({
     name: z.string().min(1),
 });
 export type userType =  {
-    socket: WebSocket;
+    socket: WebSocket | null;
     user: ExtendedUser;
+}
+export type onGoingCall = {
+    participants: participants;
+    isRinging: boolean;
+}
+export type participants = {
+    caller: userType;
+    reciever: userType;
 }

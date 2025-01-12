@@ -18,12 +18,12 @@ const UserButton = () => {
                     </AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
-            <div onClick={() => signOut()} className='cursor-pointer'>
-                <DropdownMenuContent className='flex space-x-4 items-center'>
-                    <ExitIcon className='w-4 h-4 mr-2'/>
-                    <div >Logout</div>
+                <DropdownMenuContent className='flex space-x-0 items-center'>
+                    <div className="flex items-center justify-center space-x-0 hover: cursor-pointer z-50" onClick={() => signOut()}>
+                            <ExitIcon className='w-4 h-4 mr-2'/>
+                            <div >Logout</div>
+                    </div>
                 </DropdownMenuContent>
-            </div>
         </DropdownMenu>
     )
 }

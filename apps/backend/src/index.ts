@@ -31,13 +31,22 @@ wss.on('connection', (socket: WebSocket) => {
         case 'add-user':
             const x = await getUser(message.id);
             if (x) {
-              onlineUsers.push({ socket, user: x });
+              onlineUsers.push({ socket: socket, user: x });
               broadcastUserList();
             } else {
               console.error(`User with ID ${message.id} could not be added.`);
             }
           break;
-
+          case 'call':
+            console.log("currSocket: ", socket);
+            if (message.participants && message.participants.reciever && message.participants.reciever.socket instanceof WebSocket) {
+                message.participants.reciever.socket.send(
+                    JSON.stringify({ type: 'incomingCall', participants: message.participants })
+                );
+            } else {
+                console.error('Receiver or socket is invalid:', message.participants?.reciever);
+            }
+            break;        
         default:
           console.error('Unknown message type:', message.type);
       }
