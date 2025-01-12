@@ -13,13 +13,13 @@ const UserButton = () => {
             <DropdownMenuTrigger>
                 <Avatar>
                     <AvatarImage src={user?.image || ""} />
-                    <AvatarFallback>
+                    <AvatarFallback className='bg-sky-300 h-full w-full rounded'>
                         <FaUser />
                     </AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
             <div onClick={() => signOut()} className='cursor-pointer'>
-                <DropdownMenuContent className='flex space-x-2 items-center'>
+                <DropdownMenuContent className='flex space-x-4 items-center'>
                     <ExitIcon className='w-4 h-4 mr-2'/>
                     <div >Logout</div>
                 </DropdownMenuContent>

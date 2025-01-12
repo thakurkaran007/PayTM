@@ -2,15 +2,10 @@
 
 import { getUser } from "@/hooks/getUser";
 import { onlineUsers, userSocket } from "@/jotai/atoms";
-import { ExtendedUser } from "@/next-auth";
+import { userType } from "@/schema";
 import { Button } from "@repo/ui/src/components/button";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
-
-interface ServerMessage {
-  type: string;
-  users?: ExtendedUser[];
-}
 
 const Video = () => {
   const [socket, setSocket] = useAtom(userSocket);
@@ -39,14 +34,19 @@ const Video = () => {
         console.log("Disconnected");
         setSocket(null);
       };
+
       newSocket.onmessage = (event) => {
-        const data: ServerMessage = JSON.parse(event.data);
+        const data = JSON.parse(event.data);
         console.log("data: ", data);
 
         switch (data.type) {
           case "getUsers":
             if (data.users) {
-              setOnline(data.users.filter((x) => x.id !== user?.id));
+              // Filter out the current user based on user.id
+              const filteredUsers = data.users.filter(
+                (u: userType) => u.user.id !== user?.id
+              );
+              setOnline(filteredUsers);
             }
             break;
 
@@ -56,13 +56,17 @@ const Video = () => {
       };
     } else {
       socket.onmessage = (event) => {
-        const data: ServerMessage = JSON.parse(event.data);
+        const data = JSON.parse(event.data);
         console.log("data: ", data);
 
         switch (data.type) {
           case "getUsers":
             if (data.users) {
-              setOnline(data.users.filter((x) => x.id !== user?.id));
+              // Filter out the current user based on user.id
+              const filteredUsers = data.users.filter(
+                (u: userType) => u.user.id !== user?.id
+              );
+              setOnline(filteredUsers);
             }
             break;
 
@@ -71,9 +75,11 @@ const Video = () => {
         }
       };
     }
+
+    // Cleanup on unmount
     return () => {
       socket?.close();
-    }
+    };
   }, [socket, setSocket, user?.id]);
 
   return (

@@ -54,9 +54,7 @@ wss.on('connection', (socket: WebSocket) => {
 });
 
 function broadcastUserList() {
-  // Destructure the user object while broadcasting
-  const userList = onlineUsers.map(({ user }) => ({ id: user.id, ...user }));
-  broadcast({ type: 'getUsers', users: userList });
+  broadcast({ type: 'getUsers', users: onlineUsers });
 }
 
 
