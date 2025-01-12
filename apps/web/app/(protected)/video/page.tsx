@@ -42,7 +42,7 @@ const Video = () => {
         switch (data.type) {
           case "getUsers":
             if (data.users) {
-              // Filter out the current user based on user.id
+
               const filteredUsers = data.users.filter(
                 (u: userType) => u.user.id !== user?.id
               );
@@ -62,7 +62,6 @@ const Video = () => {
         switch (data.type) {
           case "getUsers":
             if (data.users) {
-              // Filter out the current user based on user.id
               const filteredUsers = data.users.filter(
                 (u: userType) => u.user.id !== user?.id
               );
@@ -76,7 +75,6 @@ const Video = () => {
       };
     }
 
-    // Cleanup on unmount
     return () => {
       socket?.close();
     };
