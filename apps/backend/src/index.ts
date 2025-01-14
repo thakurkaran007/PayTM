@@ -39,14 +39,12 @@ wss.on('connection', (socket: WebSocket) => {
           break;
           case 'call':
             console.log("currSocket: ", socket);
-            if (message.participants && message.participants.reciever && message.participants.reciever.socket instanceof WebSocket) {
-                message.participants.reciever.socket.send(
-                    JSON.stringify({ type: 'incomingCall', participants: message.participants })
-                );
-            } else {
-                console.error('Receiver or socket is invalid:', message.participants?.reciever);
-            }
-            break;        
+            let user = onlineUsers.find((u) => u.user.id === message.participants.reciever.id);
+            user?.socket.send(
+                JSON.stringify({ type: 'incomingCall', participants: message.participants })
+            );
+            socket.send(JSON.stringify({ type: "ringing" }));
+            break;
         default:
           console.error('Unknown message type:', message.type);
       }

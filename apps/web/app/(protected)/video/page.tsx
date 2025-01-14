@@ -1,16 +1,16 @@
 "use client";
 
 import { getUser } from "@/hooks/getUser";
-import { onGoing, onlineUsers, serverSock, userSocket } from "@/jotai/atoms";
-import { participants, userType } from "@/schema";
+import { incomingcall, onlineUsers, serverSock, userSocket } from "@/jotai/atoms";
+import { userType } from "@/schema";
 import { Button } from "@repo/ui/src/components/button";
 import { useAtom } from "jotai";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Video = () => {
   const [socket, setSocket] = useAtom(userSocket);
   const [online, setOnline] = useAtom(onlineUsers);
-  const [incoming, setIncoming] = useState<boolean>(false);
+  const [incoming, setIncoming] = useAtom(incomingcall);
   const [ringing, setRinging] = useState<boolean>(false);
   const [serverSocket, setServerSocket] = useAtom(serverSock);
   const currUser = getUser();
@@ -83,9 +83,8 @@ const Video = () => {
             break;
           case 'incomingCall':
             if (data.participants) {
-              setIncoming(true);
-              console.log("Incoming call Sending Ringing...");
-              data.participants.caller.socket.send(JSON.stringify({ type: "ringing" }));
+              setIncoming({...data.participants});
+              console.log("Participants set to : ", incoming);
             }
             break;
           case 'ringing':

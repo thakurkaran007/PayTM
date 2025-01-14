@@ -11,8 +11,7 @@ import { FaUser, FaVideo } from "react-icons/fa";
 
 const Navbar = () => {
     const [online] = useAtom(onlineUsers);
-    const [socket, setSocket] = useAtom<WebSocket | null>(userSocket);
-    const [serverSocket, setServerSocket] = useAtom(serverSock);
+    const [socket, setSocket] = useAtom(userSocket);
     const currUser = getUser();
     const [onGoingCall, setOnGoingCall] = useAtom(onGoing);
 
@@ -21,11 +20,11 @@ const Navbar = () => {
             console.log("Socket is not there");
             return;
         }
-        const participants: participants = { caller: { socket: serverSocket, user: currUser }, reciever: user };
+        const participants: participants = { caller: { ...currUser }, reciever: { ...user.user } };
         setOnGoingCall({ participants: participants, isRinging: false });
         socket.send(JSON.stringify({ type: 'call', participants }));
         console.log("calling");
-      }, [socket, currUser, onGoingCall, serverSocket]);
+      }, [socket, currUser, onGoingCall]);
 
     return (
         <nav className="bg-secondary flex justify-between items-center p-4 rounded-xl w-[600xl] shadow-sm">
