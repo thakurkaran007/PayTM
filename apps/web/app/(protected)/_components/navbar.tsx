@@ -1,7 +1,7 @@
 "use client";
 import UserButton from "@/components/auth/user-button";
 import { getUser } from "@/hooks/getUser";
-import { onGoing, onlineUsers, serverSock, userSocket } from "@/jotai/atoms";
+import { onGoing, onlineUsers, userSocket } from "@/jotai/atoms";
 import { participants, userType } from "@/schema";
 import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/src/components/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@repo/ui/src/components/dropdown-menu";
@@ -24,7 +24,7 @@ const Navbar = () => {
         setOnGoingCall({ participants: participants, isRinging: false });
         socket.send(JSON.stringify({ type: 'call', participants }));
         console.log("calling");
-      }, [socket, currUser, onGoingCall]);
+      }, [socket, currUser, onGoingCall, online]);
 
     return (
         <nav className="bg-secondary flex justify-between items-center p-4 rounded-xl w-[600xl] shadow-sm">

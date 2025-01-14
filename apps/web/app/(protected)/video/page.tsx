@@ -1,18 +1,18 @@
 "use client";
 
 import { getUser } from "@/hooks/getUser";
-import { incomingcall, onlineUsers, serverSock, userSocket } from "@/jotai/atoms";
+import { incomingcall, onlineUsers, userSocket } from "@/jotai/atoms";
 import { userType } from "@/schema";
 import { Button } from "@repo/ui/src/components/button";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
+import IncomingCall from "../_components/incomingCall";
 
 const Video = () => {
   const [socket, setSocket] = useAtom(userSocket);
   const [online, setOnline] = useAtom(onlineUsers);
   const [incoming, setIncoming] = useAtom(incomingcall);
   const [ringing, setRinging] = useState<boolean>(false);
-  const [serverSocket, setServerSocket] = useAtom(serverSock);
   const currUser = getUser();
   const [pc, setPc] = useState<RTCPeerConnection | null>(null);
   const localRef = useRef<HTMLVideoElement>(null);
@@ -45,19 +45,22 @@ const Video = () => {
         switch (data.type) {
           case "getUsers":
             if (data.users) {
-
               const filteredUsers = data.users.filter(
                 (u: userType) => u.user.id !== currUser?.id
               );
               setOnline(filteredUsers);
-              const user = data.users.filter((u: userType) => u.user.id === currUser?.id);
-              console.log("user from page: ", user);
-              if (user[0]?.socket) {
-                setServerSocket(user[0].socket);
-              }
             }
             break;
-
+          case 'incomingCall':
+            if (data.participants) {
+              setIncoming({ ...data.participants });
+              console.log("Participants set to: ", incoming);
+            }
+            break;
+          case 'ringing':
+            setRinging(true);
+            console.log("ringing is true");
+            break;
           default:
             console.warn("Unhandled message type:", data.type);
         }
@@ -74,17 +77,12 @@ const Video = () => {
                 (u: userType) => u.user.id !== currUser?.id
               );
               setOnline(filteredUsers);
-              const user = data.users.filter((u: userType) => u.user.id === currUser?.id);
-              console.log("user from page: ", user);
-              if (user[0]?.socket) {
-                setServerSocket(user[0].socket);
-              }
             }
             break;
           case 'incomingCall':
             if (data.participants) {
-              setIncoming({...data.participants});
-              console.log("Participants set to : ", incoming);
+              setIncoming({ ...data.participants });
+              console.log("Participants set to: ", incoming);
             }
             break;
           case 'ringing':
@@ -102,8 +100,10 @@ const Video = () => {
     };
   }, [socket, setSocket, setRinging, setIncoming, currUser?.id]);
 
+
   return (
     <div className="flex flex-col items-center justify-center h-screen space-y-4">
+      {incoming?.caller && <IncomingCall />}
       <h2 className="text-lg font-bold">Start Your WebCam</h2>
       <div className="flex space-x-4">
         <div>

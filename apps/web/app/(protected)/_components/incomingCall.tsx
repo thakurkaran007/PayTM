@@ -10,20 +10,6 @@ import { MdCall, MdCallEnd } from 'react-icons/md';
 const IncomingCall = () => {
   const [incoming, setIncoming] = useAtom(incomingcall);
 
-  useEffect(() => {
-    if (incoming) {
-      const audio = new Audio('../../../lib/audio/iphone.mp3');
-      audio.play().catch(error => {
-        console.error('Error playing audio:', error);
-      });
-
-      return () => {
-        audio.pause();
-        audio.currentTime = 0;
-      };
-    }
-  }, [incoming]);
-
   if (!incoming) return null; 
 
   return (
