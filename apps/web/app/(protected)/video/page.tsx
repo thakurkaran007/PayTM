@@ -1,22 +1,26 @@
 "use client";
 
 import { getUser } from "@/hooks/getUser";
-import { incomingcall, onlineUsers, userSocket } from "@/jotai/atoms";
+import { incomingcall, localstream, onGoing, onlineUsers, remotestream, userSocket } from "@/jotai/atoms";
 import { userType } from "@/schema";
 import { Button } from "@repo/ui/src/components/button";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import IncomingCall from "../_components/incomingCall";
+import VideoContainer from "../_components/VideoContainer";
 
 const Video = () => {
+  const currUser = getUser();
+  const localRef = useRef<HTMLVideoElement>(null);
+  const remoteRef = useRef<HTMLVideoElement>(null);
+  const [localStream, setLocalStream] = useAtom(localstream);
+  const [remoteStream, setRemoteStream] = useAtom(remotestream);
   const [socket, setSocket] = useAtom(userSocket);
   const [online, setOnline] = useAtom(onlineUsers);
   const [incoming, setIncoming] = useAtom(incomingcall);
   const [ringing, setRinging] = useState<boolean>(false);
-  const currUser = getUser();
+  const [onGoingCall, setOnGoingCall] = useAtom(onGoing);
   const [pc, setPc] = useState<RTCPeerConnection | null>(null);
-  const localRef = useRef<HTMLVideoElement>(null);
-  const remoteRef = useRef<HTMLVideoElement>(null);
 
   const Start = () => {
     const Pc = new RTCPeerConnection();
@@ -61,6 +65,9 @@ const Video = () => {
             setRinging(true);
             console.log("ringing is true");
             break;
+          case 'declined':
+              setRinging(false);
+              setOnGoingCall(null);
           default:
             console.warn("Unhandled message type:", data.type);
         }
@@ -89,6 +96,10 @@ const Video = () => {
             setRinging(true);
             console.log("ringing is true");
             break;
+          case 'declined':
+            setRinging(false);
+            setOnGoingCall(null);
+            console.log("user declined");
           default:
             console.warn("Unhandled message type:", data.type);
         }
@@ -98,7 +109,7 @@ const Video = () => {
     return () => {
       socket?.close();
     };
-  }, [socket, setSocket, setRinging, setIncoming, currUser?.id]);
+  }, [socket, setSocket, setRinging, setIncoming, currUser?.id, localStream]);
 
 
   return (
@@ -108,7 +119,7 @@ const Video = () => {
       <div className="flex space-x-4">
         <div>
           <h3 className="text-md font-semibold">Local</h3>
-          <video ref={localRef} autoPlay playsInline className="border rounded"></video>
+          <VideoContainer stream={localStream} isLocalStream={true} isOnCall={false}/>
         </div>
         <div>
           <h3 className="text-md font-semibold">Remote</h3>

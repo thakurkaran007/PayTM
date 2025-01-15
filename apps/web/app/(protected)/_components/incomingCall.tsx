@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { incomingcall } from "@/jotai/atoms";
+import { incomingcall, userSocket } from "@/jotai/atoms";
 import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/src/components/avatar";
 import { Button } from "@repo/ui/src/components/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@repo/ui/src/components/card";
@@ -9,6 +9,12 @@ import { MdCall, MdCallEnd } from 'react-icons/md';
 
 const IncomingCall = () => {
   const [incoming, setIncoming] = useAtom(incomingcall);
+  const [socket, setSocket] = useAtom(userSocket);
+
+  const decline = () => {
+    socket?.send(JSON.stringify({ type: "decline", user: incoming?.caller }));
+    setIncoming(null);
+  }
 
   if (!incoming) return null; 
 
@@ -31,7 +37,7 @@ const IncomingCall = () => {
           <Button className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center hover:bg-green-600">
             <MdCall size={24} className="text-white" />
           </Button>
-          <Button className="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center hover:bg-red-600">
+          <Button className="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center hover:bg-red-600" onClick={() => decline()}>
             <MdCallEnd size={24} className="text-white" />
           </Button>
         </CardFooter>

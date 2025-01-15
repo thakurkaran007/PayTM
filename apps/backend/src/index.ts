@@ -34,7 +34,7 @@ wss.on('connection', (socket: WebSocket) => {
               onlineUsers.push({ socket: socket, user: x });
               broadcastUserList();
             } else {
-              console.error(`User with ID ${message.id} could not be added.`);
+              console.error(`User with ID ${message.id} could not be added. db fetch error`);
             }
           break;
           case 'call':
@@ -45,6 +45,11 @@ wss.on('connection', (socket: WebSocket) => {
             );
             socket.send(JSON.stringify({ type: "ringing" }));
             break;
+          case 'decline':
+              let z = onlineUsers.find((u) => u.user.id === message.user.id);
+              z?.socket.send(
+                JSON.stringify({ type: "declined" })
+              );
         default:
           console.error('Unknown message type:', message.type);
       }
@@ -56,7 +61,6 @@ wss.on('connection', (socket: WebSocket) => {
   socket.on('close', () => {
     onlineUsers = onlineUsers.filter((user) => user.socket !== socket);
     broadcastUserList();
-    console.log('Connection closed. Updated user list:', onlineUsers);
   });
 });
 
