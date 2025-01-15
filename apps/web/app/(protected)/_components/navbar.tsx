@@ -14,8 +14,9 @@ const Navbar = () => {
     const [socket, setSocket] = useAtom(userSocket);
     const [localStream, setLocalStream] = useAtom(localstream);
     const [ringing, setRinging] = useAtom(ring);
-    const currUser = getUser();
     const [onGoingCall, setOnGoingCall] = useAtom(onGoing);
+    const [calling, setCalling] = useState<boolean>(false);
+    const currUser = getUser();
 
     const checkPermissions = async (): Promise<boolean> => {
         try {
@@ -61,6 +62,7 @@ const Navbar = () => {
         [localStream]);
 
     const handleCall = useCallback(async(user: userType) => {
+        setCalling(false);
         const stream = await getMediaStream();
         if (!stream) return;
         if (!socket || !currUser) {
@@ -71,7 +73,7 @@ const Navbar = () => {
         setOnGoingCall({ participants: participants, isRinging: false });
         socket.send(JSON.stringify({ type: 'call', participants }));
         console.log("calling");
-      }, [socket, currUser, onGoingCall, online, localStream]);
+      }, [socket, currUser, onGoingCall, online]);
 
 
     return (
@@ -89,7 +91,7 @@ const Navbar = () => {
                             </Avatar>
                             </DropdownMenuTrigger>
                             {
-                                !ringing && (
+                                !calling && (
                                     <DropdownMenuContent className="flex items-center justify-center space-x-0 hover: cursor-pointer" onClick={() => handleCall(k)}>
                                         <FaVideo className="h-6 w-6 mr-2 text-green-300"/>
                                         <div className="mr-2">Facetime</div>

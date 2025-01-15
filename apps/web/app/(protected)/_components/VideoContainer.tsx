@@ -7,7 +7,7 @@ interface propVideo {
 }
 const VideoContainer = ({ stream, isLocalStream, isOnCall }: propVideo) => {
     const videoRef = useRef<HTMLVideoElement>(null);
-
+    
     useEffect(() => {
         if (videoRef.current && stream) {
             console.log("VideoContainer rendered")
@@ -15,7 +15,7 @@ const VideoContainer = ({ stream, isLocalStream, isOnCall }: propVideo) => {
         }
     }, [stream]);
     return (
-        <video className="rounded border w-[800px]" autoPlay playsInline muted={isLocalStream}></video>
+        <video className={`rounded border ${isLocalStream ? "w-[200px]": "w-screen"}`} ref={videoRef} autoPlay playsInline muted={isLocalStream}></video>
     )
 }
 export default VideoContainer;

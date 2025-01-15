@@ -50,6 +50,7 @@ wss.on('connection', (socket: WebSocket) => {
               z?.socket.send(
                 JSON.stringify({ type: "declined" })
               );
+            break;
         default:
           console.error('Unknown message type:', message.type);
       }
