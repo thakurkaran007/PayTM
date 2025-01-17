@@ -1,5 +1,5 @@
 import { UserRole } from '@prisma/client';
-import { WebSocketServer, WebSocket } from 'ws';
+import { WebSocketServer, WebSocket, on } from 'ws';
 import { getUser } from './user.js';
 
 const wss = new WebSocketServer({ port: 8080 });
@@ -38,18 +38,27 @@ wss.on('connection', (socket: WebSocket) => {
             }
           break;
           case 'call':
-            console.log("currSocket: ", socket);
             let user = onlineUsers.find((u) => u.user.id === message.participants.reciever.id);
-            user?.socket.send(
-                JSON.stringify({ type: 'incomingCall', participants: message.participants })
-            );
+            user?.socket.send( JSON.stringify({ type: 'incomingCall', participants: message.participants }) );
             socket.send(JSON.stringify({ type: "ringing" }));
             break;
           case 'decline':
-              let z = onlineUsers.find((u) => u.user.id === message.user.id);
-              z?.socket.send(
-                JSON.stringify({ type: "declined" })
-              );
+            let z = onlineUsers.find((u) => u.user.id === message.user.id);
+            z?.socket.send(
+              JSON.stringify({ type: "declined" })
+            );
+            break;
+          case 'create-offer':
+            let u = onlineUsers.find(u => u.user.id === message.user.caller.id);
+            u?.socket.send(JSON.stringify({ type: 'offer', user: message.user, sdp: message.sdp }));
+            break;
+          case 'create-answer':
+            let ans = onlineUsers.find(u => u.user.id === message.user.reciever.id);
+            ans?.socket.send(JSON.stringify({ type: 'answer', sdp: message.sdp }))
+            break;
+          case 'ice-candidate':
+            let ice = onlineUsers.find(u => u.user.id === message.user.id);
+            ice?.socket.send(JSON.stringify({ type: 'candidate', candidate: message.candidate }));
             break;
         default:
           console.error('Unknown message type:', message.type);
