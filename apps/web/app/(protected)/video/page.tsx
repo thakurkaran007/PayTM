@@ -23,6 +23,16 @@ const Video = () => {
   const [ringing, setRinging] = useState<boolean>(false);
   const [pc, setPc] = useAtom(peerAtom);
   const iceCandidateBuffer = useRef<RTCIceCandidateInit[]>([]);
+  const videoRef = useRef<HTMLVideoElement>(null);
+    
+  useEffect(() => {
+      if (videoRef.current && remoteStream) {
+          console.log("remote rendered caller: ", remoteStream);
+          console.log("remoteStream tracks: ", remoteStream.getTracks());
+          console.log("Video tracks: ", remoteStream.getVideoTracks());
+          videoRef.current.srcObject = remoteStream;
+      }
+  }, [remoteStream]);
 
   useEffect(() => {
     if (pc && iceCandidateBuffer.current.length > 0) {
@@ -40,7 +50,7 @@ const Video = () => {
     } else {
       console.log("No ICE candidates got buffered.");
     }
-  }, [pc, socket]);
+  }, [pc, localStream]);
   
   const End = () => {
     setOnGoingCall(null);
@@ -164,6 +174,10 @@ const Video = () => {
                 },
               ],
             });
+            peer.ontrack = (event) => {
+              console.log("Remote stream received:", event.streams[0]);
+              setRemoteStream(event.streams[0]);
+            };
             const stream = await getMediaStream();
             if (stream) {
               stream.getTracks().forEach((track) => {
@@ -183,11 +197,6 @@ const Video = () => {
                 socket?.send(JSON.stringify({ type: 'ice-candidate', user: data.user.reciever, candidate: e.candidate }));
               }
             }
-            peer.ontrack = (event) => {
-              console.log("Remote stream received:", event.streams[0]);
-              setRemoteStream(event.streams[0]);
-              setPc(peer);
-            };
             break;
             case 'answer':
               if (!pc)  {
@@ -220,7 +229,7 @@ const Video = () => {
     return () => {
       socket?.close();
     };
-  }, [socket, setSocket, setRinging, setIncoming, currUser?.id, setPc]);
+  }, [socket, setSocket, setRinging, setIncoming, currUser?.id, setPc, setRemoteStream]);
 
 
 
@@ -232,7 +241,7 @@ const Video = () => {
     <div className="relative w-full h-full">
       <div className="absolute inset-0 border-8">
         <h3 className="text-lg font-semibold text-white absolute top-4 left-4 z-10">Remote</h3>
-        { pc && <VideoContainer stream={remoteStream} isOnCall={true} isLocalStream={false} /> }
+        <video className={`rounded border w-[400px]`} ref={videoRef} autoPlay playsInline muted={false}></video>
       </div>
   
       <div 

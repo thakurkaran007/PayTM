@@ -22,7 +22,6 @@ const IncomingCall = () => {
     socket?.send(JSON.stringify({ type: "decline", user: incoming?.caller }));
     setIncoming(null);
   }
-
       const checkPermissions = async (): Promise<boolean> => {
           try {
               const cameraPermission = await navigator.permissions.query({ name: "camera" as PermissionName });
@@ -88,13 +87,20 @@ const IncomingCall = () => {
         await newPeer.setLocalDescription(offer);
         socket?.send(JSON.stringify({ type: 'create-offer', user: incoming, sdp: offer }));
       }
-      
+      newPeer.ontrack = (e) => {
+        console.log("Got remote stream:", e.streams[0]);
+        setRemoteStream(e.streams[0]);
+      }
       socket.onmessage = async (e) => {
         const data = JSON.parse(e.data);
         switch (data.type) {
           case 'answer':
             await pc?.setRemoteDescription(data.sdp);
             console.log("Answer set");
+            newPeer.ontrack = (e) => {
+              console.log("Got remote stream:", e.streams[0]);
+              setRemoteStream(e.streams[0]);
+            }
           break;
           case 'candidate':
             await pc?.addIceCandidate(data.candidate);
@@ -118,33 +124,26 @@ const IncomingCall = () => {
       return newPeer;
   }, [incoming, socket, setPc, setRemoteStream]);
 
-  const handleJoin = useCallback(async(incoming: participants) => {
+  const handleJoin = useCallback(async() => {
       setCall(true);
       const stream = await getMediaStream();
       if (!stream) {
         console.log("Couldn't get stream in getMediaStream");
         return;
       }
-      
       const peer = await createPeer();
       if (!peer) {
         console.log("Couldn't create peer in createPeer");
         return;
       }
+      peer.ontrack = (e) => {
+        console.log("Got remote stream:", e.streams[0]);
+        setRemoteStream(e.streams[0]);
+      }
       stream.getTracks().forEach((track) => {
         console.log("Adding track to peer:", track);
         peer.addTrack(track, stream);
       });
-      // const newPeer = createPeer(stream, true, decline);
-
-      // setPeer({ peerConnection: newPeer, user: incoming.caller, stream: undefined })
-      // newPeer.on('signal', async (data: SignalData) => {
-      //     if (socket) {
-      //       console.log("Emitting an offer");
-      //       socket.send(JSON.stringify({ type: 'webRTC', sdp: data, user: incoming, isCaller: false }))
-      //       return;
-      //     }
-      // })
   }, [incoming]);
 
 
@@ -168,7 +167,7 @@ const IncomingCall = () => {
           <p className="text-gray-600">Incoming call...</p>
         </CardContent>
         <CardFooter className="flex justify-around p-4">
-          <Button className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center hover:bg-green-600" onClick={() => handleJoin(incoming)}>
+          <Button className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center hover:bg-green-600" onClick={() => handleJoin()}>
             <MdCall size={24} className="text-white" />
           </Button>
           <Button className="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center hover:bg-red-600" onClick={decline}>
