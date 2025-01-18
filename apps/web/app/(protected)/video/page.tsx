@@ -23,16 +23,6 @@ const Video = () => {
   const [ringing, setRinging] = useState<boolean>(false);
   const [pc, setPc] = useAtom(peerAtom);
   const iceCandidateBuffer = useRef<RTCIceCandidateInit[]>([]);
-  const videoRef = useRef<HTMLVideoElement>(null);
-    
-  useEffect(() => {
-      if (videoRef.current && remoteStream) {
-          console.log("remote rendered caller: ", remoteStream);
-          console.log("remoteStream tracks: ", remoteStream.getTracks());
-          console.log("Video tracks: ", remoteStream.getVideoTracks());
-          videoRef.current.srcObject = remoteStream;
-      }
-  }, [remoteStream]);
 
   useEffect(() => {
     if (pc && iceCandidateBuffer.current.length > 0) {
@@ -241,7 +231,7 @@ const Video = () => {
     <div className="relative w-full h-full">
       <div className="absolute inset-0 border-8">
         <h3 className="text-lg font-semibold text-white absolute top-4 left-4 z-10">Remote</h3>
-        <video className={`rounded border w-[400px]`} ref={videoRef} autoPlay playsInline muted={false}></video>
+        <VideoContainer stream={remoteStream} isOnCall={true} isLocalStream={false}/>
       </div>
   
       <div 
