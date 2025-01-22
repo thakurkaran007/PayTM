@@ -10,8 +10,8 @@ import { SignUpSchema } from "@/schema";
 import { Button } from "@repo/ui/src/components/button";
 import { CardWrapper } from "./CardWrapper";
 import { FormError, FormSuccess } from "./form-condition";
-import { send } from "@/actions/otpUp";
-import { verifyOtp } from "@/actions/otp-verify";
+import { send } from "@/actions/send-otp";
+import { verifyOtp } from "@/actions/verify-otp";
 import { useRouter } from "next/navigation";
 
 
