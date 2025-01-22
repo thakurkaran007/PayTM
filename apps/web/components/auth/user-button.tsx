@@ -1,6 +1,6 @@
 "use client";
 import { getUser } from '@/hooks/getUser';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@repo/ui/src/components/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@repo/ui/src/components/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/src/components/avatar';
 import { FaUser } from 'react-icons/fa';
 import { ExitIcon } from '@radix-ui/react-icons';

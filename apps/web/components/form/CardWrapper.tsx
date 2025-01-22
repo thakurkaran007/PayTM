@@ -17,7 +17,7 @@ export const CardWrapper = (
     { children, headerLabel, backButtonLabel, backButtonhref, showSocial }: CardWrapperProps
 ) => {
     return (    
-        <Card style={{ width: '30%', margin: '0 auto' }}>
+        <Card className="w-[350px]">
 
             <CardHeader>
                 <Header label={headerLabel}/>
