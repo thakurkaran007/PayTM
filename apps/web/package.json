@@ -11,12 +11,10 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.7.4",
+    "@repo/ui": "*",
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.1",
-    "@repo/db": "*",
-    "@repo/ui": "*",
     "@types/simple-peer": "^9.11.8",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.1",

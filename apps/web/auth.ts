@@ -5,7 +5,7 @@ import { db } from '@repo/db/src'
 import { getUserByID } from '@/data/user'
 import { UserRole } from '@prisma/client'
 
-export const {
+export const {  
     handlers: { GET, POST },
     auth,
     signIn,
@@ -49,7 +49,7 @@ export const {
             return token;
         }
     },
-    adapter: PrismaAdapter(db),
     session: { strategy: 'jwt' },
-    ...authConfig
+    ...authConfig,
+    adapter: PrismaAdapter(db),
 })
