@@ -5,7 +5,7 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@repo/db/*": ["../../packages/db/*"],
+      "@repo/db/*": ["../../packages/db/*"]
     }
   },
   "include": ["src"],
