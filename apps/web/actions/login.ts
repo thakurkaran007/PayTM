@@ -2,13 +2,14 @@
 import { signIn } from "@/auth";
 import { getUserByEmail } from "@/data/user";
 import { sendVerificationMail } from "@/lib/mail";
-import { generatetVerififcationToken } from "@/lib/tokens";
+import { generatetVerificationToken } from "@/lib/tokens";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import { LoginSchema } from "@/schema";
 import { AuthError } from "next-auth";
 import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { getVerificationTokenByEmail } from "@/data/verification-token";
+import { db } from "@repo/db/src";
 
 export const login = async(values: z.infer<typeof LoginSchema>) => {
     const validation = LoginSchema.safeParse(values);
@@ -29,7 +30,7 @@ export const login = async(values: z.infer<typeof LoginSchema>) => {
         return { error: "Wrong Password" };
     }
     if (!existingUser.emailVerified) {
-        const verificationToken = await generatetVerififcationToken(email);
+        const verificationToken = await generatetVerificationToken(email);
         await sendVerificationMail(email, verificationToken.token);
         return { success: "Confirmation email Sent" };
     } else {
@@ -37,7 +38,8 @@ export const login = async(values: z.infer<typeof LoginSchema>) => {
         if (token) {
             const hasExpired = new Date(token.expires) < new Date();
             if (hasExpired) {
-                const verificationToken = await generatetVerififcationToken(email);
+                await db.verificationToken.delete({ where: { id: token.id } });
+                const verificationToken = await generatetVerificationToken(email);
                 await sendVerificationMail(email, verificationToken.token);
                 return { success: "Confirmation email Sent" };
             }
