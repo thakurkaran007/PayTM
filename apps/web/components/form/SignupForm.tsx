@@ -38,7 +38,12 @@ export const SignupForm = () => {
   const handleOtp = async () => {
     setIsSending(true);
     try {
-      const res = await send(form.getValues("email"));
+      const mail = form.getValues("email");
+      if (mail === "") {
+        setError("Email is required");
+        return;
+      }
+      const res = await send(mail);
       if (res.success) {
         setSuccess(res.success);
         setCame(true);
@@ -46,7 +51,7 @@ export const SignupForm = () => {
       }
     } catch (e) {
       setSuccess("");
-      setError(e as string)
+      setError(e as string);
     } finally {
       setIsSending(false);
     }

@@ -33,14 +33,13 @@ export const LoginForm = () => {
             login(values)
                 .then((response) => {
                     if (response && response.error) {
-                        setError(response.error);
                         setSuccess("");
+                        setError(response.error);
                     }
                     if (response && response.success) {
-                        values.email = "";
-                        values.password = "";
                         setSuccess(response.success);
                         setError("");
+                        form.reset();   
                     }
                 })
                 .catch((error) => {
