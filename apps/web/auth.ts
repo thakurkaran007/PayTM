@@ -50,6 +50,6 @@ export const {
         }
     },
     session: { strategy: 'jwt' },
-    ...authConfig,
     adapter: PrismaAdapter(db),
+    ...authConfig,
 })

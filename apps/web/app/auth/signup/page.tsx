@@ -1,3 +1,5 @@
+"use client";
+
 import { SignupForm } from "@/components/form/SignupForm";
 
 const Signup = () => {
