@@ -4,7 +4,8 @@
     "private": true,
     "type": "module",
     "exports": {
-      "./index": "./src/*"
+      "./index": "./src/*",
+      "./dist": "./dist/*"
     },
     "dependencies": {
       "@prisma/client": "^6.1.0"
