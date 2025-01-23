@@ -44,9 +44,9 @@ export const SignupForm = () => {
         setCame(true);
         setError("");
       }
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e) {
       setSuccess("");
+      setError(e as string)
     } finally {
       setIsSending(false);
     }
@@ -65,8 +65,8 @@ export const SignupForm = () => {
       } else {
         setError(res.error || "OTP verification failed");
       }
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e) {
+      setError(e as string);
       setSuccess("");
     } finally {
       setIsVerifying(false);
