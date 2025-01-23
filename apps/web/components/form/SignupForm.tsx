@@ -35,7 +35,8 @@ export const SignupForm = () => {
   });
 
   const handleOtp = () => {
-    send(form.getValues("email"))
+    startTransition(() => {
+      send(form.getValues("email"))
       .then((res) => {
         if (res.success) {
           setSuccess(res.success);
@@ -45,6 +46,7 @@ export const SignupForm = () => {
       .catch((e) => {
         setError(e.message);
       })
+    })
   };
 
   const verify = () => {

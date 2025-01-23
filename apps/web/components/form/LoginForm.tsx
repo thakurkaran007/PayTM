@@ -37,6 +37,8 @@ export const LoginForm = () => {
                         setSuccess("");
                     }
                     if (response && response.success) {
+                        values.email = "";
+                        values.password = "";
                         setSuccess(response.success);
                         setError("");
                     }
