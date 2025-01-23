@@ -4,7 +4,7 @@ import * as z from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@repo/ui/src/components/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@repo/ui/src/components/input";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import signup from "@/actions/signup";
 import { SignUpSchema } from "@/schema";
 import { Button } from "@repo/ui/src/components/button";
@@ -14,14 +14,15 @@ import { send } from "@/actions/send-otp";
 import { verifyOtp } from "@/actions/verify-otp";
 import { useRouter } from "next/navigation";
 
-
 export const SignupForm = () => {
   const router = useRouter();
   const [came, setCame] = useState<boolean>(false);
   const [verified, setVerified] = useState<boolean>(false);
   const [success, setSuccess] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [isPending, startTransition] = useTransition();
+  const [isSending, setIsSending] = useState<boolean>(false);
+  const [isVerifying, setIsVerifying] = useState<boolean>(false);
+  const [isSigningUp, setIsSigningUp] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
@@ -34,57 +35,63 @@ export const SignupForm = () => {
     },
   });
 
-  const handleOtp = () => {
-    startTransition(() => {
-      send(form.getValues("email"))
-      .then((res) => {
-        if (res.success) {
-          setSuccess(res.success);
-          setCame(true);
-        }
-      })
-      .catch((e) => {
-        setError(e.message);
-      })
-    })
+  const handleOtp = async () => {
+    setIsSending(true);
+    try {
+      const res = await send(form.getValues("email"));
+      if (res.success) {
+        setSuccess(res.success);
+        setCame(true);
+        setError("");
+      }
+    } catch (e: any) {
+      setError(e.message);
+      setSuccess("");
+    } finally {
+      setIsSending(false);
+    }
   };
 
-  const verify = () => {
-    const email = form.getValues("email"); 
-    const otpValue = form.getValues("otp"); 
-  
-    verifyOtp(otpValue, email)
-      .then((res) => {
-        if (res.success) {
-          setVerified(true);
-          setSuccess("");
-          setError("");
-        } else {
-          setError(res.error || "OTP verification failed");
-        }
-      })
-      .catch((e) => {
-        setError(e.message);
-      });
+  const verify = async () => {
+    setIsVerifying(true);
+    try {
+      const email = form.getValues("email");
+      const otpValue = form.getValues("otp");
+      const res = await verifyOtp(otpValue, email);
+      if (res.success) {
+        setVerified(true);
+        setSuccess("");
+        setError("");
+      } else {
+        setError(res.error || "OTP verification failed");
+      }
+    } catch (e: any) {
+      setError(e.message);
+      setSuccess("");
+    } finally {
+      setIsVerifying(false);
+    }
   };
-  
 
-  const submit = (values: z.infer<typeof SignUpSchema>) => {
-    startTransition(() => {
-      signup(values)
-        .then((response) => {
-          if (response.error) {
-            setError(response.error);
-          }
-          if (response.success) {
-            setSuccess(response.success);
-            router.push("/auth/login");
-          }
-        })
-        .catch(() => {
-          setError("An error occurred");
-        });
-    });
+  const submit = async (values: z.infer<typeof SignUpSchema>) => {
+    setIsSigningUp(true);
+    try {
+      const response = await signup(values);
+      if (response.error) {
+        setError(response.error);
+        setSuccess("");
+      }
+      if (response.success) {
+        setSuccess(response.success);
+        setError("");
+        router.push("/auth/login");
+      }
+    } catch {
+      setError("An error occurred");
+      setSuccess("");
+    } finally {
+      setIsSigningUp(false);
+    }
   };
 
   return (
@@ -105,7 +112,7 @@ export const SignupForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} type="email" placeholder="abc@gmail.com" disabled={came || verified} />
+                    <Input {...field} type="email" placeholder="abc@gmail.com" disabled={came || verified || isSending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -121,7 +128,7 @@ export const SignupForm = () => {
                   <FormItem>
                     <FormLabel>Enter OTP</FormLabel>
                     <FormControl>
-                      <Input {...field} type="text" placeholder="******" disabled={isPending} />
+                      <Input {...field} type="text" placeholder="******" disabled={isVerifying} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -139,7 +146,7 @@ export const SignupForm = () => {
                     <FormItem>
                       <FormLabel>Enter Name</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="Name" type="text" disabled={isPending} />
+                        <Input {...field} placeholder="Name" type="text" disabled={isSigningUp} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -152,7 +159,7 @@ export const SignupForm = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="********" type="password" disabled={isPending} />
+                        <Input {...field} placeholder="********" type="password" disabled={isSigningUp} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -165,7 +172,7 @@ export const SignupForm = () => {
                     <FormItem>
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="********" type="password" disabled={isPending} />
+                        <Input {...field} placeholder="********" type="password" disabled={isSigningUp} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -175,28 +182,28 @@ export const SignupForm = () => {
             )}
           </div>
 
-          {/* Action Button */}
+          {/* Action Buttons */}
           <div>
             {!came && !verified && (
-              <Button type="button" onClick={handleOtp} disabled={isPending}>
-                Send OTP
+              <Button type="button" onClick={handleOtp} disabled={isSending}>
+                {isSending ? "Sending..." : "Send OTP"}
               </Button>
             )}
             {came && !verified && (
-              <Button type="button" onClick={verify} disabled={isPending}>
-                Verify OTP
+              <Button type="button" onClick={verify} disabled={isVerifying}>
+                {isVerifying ? "Verifying..." : "Verify OTP"}
               </Button>
             )}
             {verified && (
-              <Button type="submit" disabled={isPending}>
-                Submit
+              <Button type="submit" disabled={isSigningUp}>
+                {isSigningUp ? "Submitting..." : "Submit"}
               </Button>
             )}
           </div>
 
           {/* Error/Success Messages */}
-          {error && !success && <FormError message={error}/>}
-          {success && !error && <FormSuccess message={success}/>}
+          {error && !success && <FormError message={error} />}
+          {success && !error && <FormSuccess message={success} />}
         </form>
       </Form>
     </CardWrapper>

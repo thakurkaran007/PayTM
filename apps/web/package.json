@@ -15,7 +15,6 @@
     "@radix-ui/react-icons": "^1.3.2",
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.1",
-    "@types/simple-peer": "^9.11.8",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -27,11 +26,11 @@
     "react-icons": "^5.4.0",
     "react-spinners": "^0.15.0",
     "resend": "^4.0.1",
-    "simple-peer": "^9.11.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.0.3",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "@auth/prisma-adapter": "^2.7.4"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

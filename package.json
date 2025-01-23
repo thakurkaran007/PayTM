@@ -20,8 +20,5 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "dependencies": {
-    "@auth/prisma-adapter": "^2.7.4"
-  }
+  ]
 }
