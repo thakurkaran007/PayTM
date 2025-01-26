@@ -9,8 +9,8 @@
     "./card": "./src/components/card.tsx",
     "./form": "./src/components/form.tsx",
     "./input": "./src/components/input.tsx",
-    "./label": "./src/components/label.tsx",
-    "./atoms": "./src/components/atoms.ts"
+    "./label": "./src/components/label.tsx", 
+    "./select": "./src/components/select.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -29,6 +29,7 @@
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.4",
     "@radix-ui/react-label": "^2.1.1",
+    "@radix-ui/react-select": "^2.1.5",
     "@radix-ui/react-slot": "^1.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

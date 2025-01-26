@@ -2,8 +2,6 @@
 
 import { usePathname, useRouter } from "next/navigation";
 
-
-
 const SidebarItem = ({ href, icon, title }: { href: string; title: string; icon: React.ReactNode }) => {
     const router = useRouter();
     const path = usePathname();

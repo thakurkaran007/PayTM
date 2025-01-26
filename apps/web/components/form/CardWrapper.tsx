@@ -20,7 +20,7 @@ export const CardWrapper = (
         <Card className="w-[350px]">
 
             <CardHeader>
-                <Header label={headerLabel}/>
+                <Header auth label={headerLabel}/>
             </CardHeader>
             <CardContent>
                 {children}
