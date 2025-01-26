@@ -12,6 +12,7 @@ export default function Layout({
           <SidebarItem href={"/dashboard"} icon={<HomeIcon />} title="Home" />
           <SidebarItem href={"/transfer"} icon={<TransferIcon />} title="Transfer" />
           <SidebarItem href={"/transactions"} icon={<TransactionsIcon />} title="Transactions" />
+          <SidebarItem href={"/p2p"} icon={<P2PIcon />} title="p2p" />
         </div>
       </div>
       {children}
@@ -71,6 +72,30 @@ function TransactionsIcon() {
         strokeLinecap="round" // Corrected
         strokeLinejoin="round" // Corrected
         d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+      />
+    </svg>
+  );
+}
+function P2PIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className="w-6 h-6"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 3v18m9-9H3"
+      />
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15 9l3 3-3 3M9 15l-3-3 3-3"
       />
     </svg>
   );

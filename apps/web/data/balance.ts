@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { getUser } from "@/hooks/getUser";
 import { db } from "@repo/db/src";
 
 async function getBalance() {

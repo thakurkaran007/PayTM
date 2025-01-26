@@ -1,6 +1,5 @@
 import * as z from 'zod';
 
-import { ExtendedUser } from './next-auth';
 export const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(1),
@@ -12,11 +11,12 @@ export const SignUpSchema = z.object({
     password2: z.string().min(6, 'Password must be 6 characters'),
     name: z.string().min(1),
 });
-export type userType =  {
-    socket: WebSocket | null;
-    user: ExtendedUser;
-}
-export type participants = {
-    caller: ExtendedUser;
-    reciever: ExtendedUser;
-}
+export const SendMoneySchema = z.object({
+    email: z.string().email(),
+    amount: z.string()
+      .min(1, "At least write some amount")
+      .refine(value => parseFloat(value) > 0, {
+        message: "Amount must be greater than 0",
+      })
+  });
+  

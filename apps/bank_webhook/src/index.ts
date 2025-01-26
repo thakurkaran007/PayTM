@@ -1,13 +1,15 @@
-import { db } from "@repo/db/dist/index.js";
+import { db } from "@repo/db/dist";
 
 import express from "express";
 const app = express();
+app.use(express.json());
+
 
 app.post("/hdfcWebHook", async (req, res) => {
     const paymentInfo = {
         token: req.body.token,
         userId: req.body.userId,
-        amount: req.body.amount,
+        amount: Number(req.body.amount),
     }
     try {
         await db.$transaction([
@@ -34,4 +36,8 @@ app.post("/hdfcWebHook", async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error"})
     }
+})
+
+app.listen(8989, () => {
+    console.log("listening on port 8989");
 })

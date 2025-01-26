@@ -5,7 +5,7 @@ const BalanceCard = ({ amount, locked }: { amount: number; locked: number }) => 
     return (
         <Card>
             <CardHeader>
-            <CardTitle className="text-2xl text-center font-extrabold text-gray-800">Balance</CardTitle>
+            <CardTitle className="text-2xl font-extrabold text-gray-800">Balance</CardTitle>
             </CardHeader>
             <CardContent>
             <div className="flex justify-between border-b border-slate-300 pb-2">
