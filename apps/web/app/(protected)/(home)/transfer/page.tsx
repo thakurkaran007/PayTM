@@ -1,4 +1,5 @@
 import getBalance from "@/data/balance";
+
 import { AddMoney } from "../_components/AddMoney";
 import BalanceCard from "../_components/BalanceCard";
 import { OnRampTransactions } from "../_components/OnRampTransactions";
