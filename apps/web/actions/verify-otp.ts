@@ -8,8 +8,6 @@ export const verifyOtp = async (otp: string, email: string) => {
     const token = await getVerificationTokenByEmail(email);
     if (token) {
         const actual = bcrypt.compare(token?.token, otp);
-        console.log("token: ", token);
-        console.log("otp: ", otp);
         if (!actual) {
         return { error: "Invalid OTP" };
         }  
