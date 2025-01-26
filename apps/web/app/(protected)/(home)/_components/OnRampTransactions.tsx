@@ -1,6 +1,6 @@
 import { Header } from "@/components/button/Header"
 import { OnRamp } from "@prisma/client"
-import { Card, CardHeader } from "@repo/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card"
 
 export const OnRampTransactions = ({
     transactions
@@ -14,16 +14,17 @@ export const OnRampTransactions = ({
 }) => {
     if (!transactions.length) {
         return <Card>
-            <CardHeader><Header label="Recent Transactions"/></CardHeader>
-            <div className="text-center pb-8 pt-8">
+            <CardHeader><CardTitle className="text-2xl text-center font-extrabold text-gray-800">Recent Transaction</CardTitle></CardHeader>
+            <CardContent className="text-center">
                 No Recent transactions
-            </div>
+            </CardContent>
         </Card>
     }
     return <Card>
-        <CardHeader><Header label="Recent Transactions"/></CardHeader>
+        <CardHeader><CardTitle className="text-2xl text-center font-extrabold text-gray-800">Recent Transaction</CardTitle></CardHeader>
+        <CardContent>
         <div className="pt-2">
-            {transactions.map(t => <div className="flex justify-between">
+            {transactions.map((t, i) => <div key={i} className="flex justify-between">
                 <div>
                     <div className="text-sm">
                         Received INR
@@ -38,5 +39,6 @@ export const OnRampTransactions = ({
 
             </div>)}
         </div>
+        </CardContent>
     </Card>
 }

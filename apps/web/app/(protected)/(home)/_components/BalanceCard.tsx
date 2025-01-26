@@ -1,10 +1,12 @@
 import { Header } from "@/components/button/Header";
-import { Card, CardContent, CardHeader } from "@repo/ui/src/components/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/src/components/card";
 
 const BalanceCard = ({ amount, locked }: { amount: number; locked: number }) => {
     return (
         <Card>
-            <CardHeader><Header label="Balance" /></CardHeader>
+            <CardHeader>
+            <CardTitle className="text-2xl text-center font-extrabold text-gray-800">Balance</CardTitle>
+            </CardHeader>
             <CardContent>
             <div className="flex justify-between border-b border-slate-300 pb-2">
             <div>
