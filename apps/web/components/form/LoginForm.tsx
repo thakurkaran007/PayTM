@@ -6,7 +6,7 @@ import { LoginSchema } from "@/schema";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@repo/ui/src/components/form";
 import { Input } from "@repo/ui/src/components/input";
 import { Button } from "@repo/ui/src/components/button";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { login } from "@/actions/login";
 import { CardWrapper } from "./CardWrapper";
 import { FormError, FormSuccess } from "./form-condition";
@@ -15,11 +15,10 @@ import { useSearchParams } from "next/navigation";
 export const LoginForm = () => {
     const searchParams = useSearchParams();
     const urlError = searchParams.get("error") === "OAuthAccountNotLinked" ? "Email already in use" : "";
-
     const [success, setSuccess] = useState<string>("");
     const [error, setError] = useState<string>("");
     const [isPending, startTransition] = useTransition();
-
+    
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
@@ -27,6 +26,10 @@ export const LoginForm = () => {
             password: "",
         }
     });
+    
+    useEffect(() => {
+        if (urlError === "Email already in use") setError(urlError);
+    }, [urlError])
 
     const submit = (values: z.infer<typeof LoginSchema>) => {
         startTransition(() => {
@@ -95,7 +98,7 @@ export const LoginForm = () => {
                             )}
                         />
                     </div>
-                    { error || <FormError message={error || urlError}/>}
+                    { error && !success && <FormError message={error}/>}
                     { success && !error && <FormSuccess message={success}/>}
                     <Button type="submit" className="w-full">   
                         Login

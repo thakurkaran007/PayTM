@@ -9,8 +9,8 @@ const AppBar = () => {
         <div className="flex flex-col justify-center text-lg">
             PayTM
         </div>
-        <div className="flex flex-col justify-center pt-2">
-            <Button variant={"secondary"} onClick={() => signOut()}>Logout</Button>
+        <div className="flex flex-col justify-center pt-2 pb-2">
+            <Button onClick={() => signOut()}>Logout</Button>
         </div>
     </div>
 }
