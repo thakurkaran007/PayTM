@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 
 
 const AppBar = () => {
-    return <div className="flex justify-between border-b px-4">
+    return <div className="flex justify-between border-b-black px-4">
         <div className="flex flex-col justify-center text-lg">
             PayTM
         </div>
