@@ -4,7 +4,7 @@ import BalanceCard from "../_components/BalanceCard";
 import { OnRampTransactions } from "../_components/OnRampTransactions";
 import { getOnRampTransactions } from "@/data/transaction";
 
-export default async function() {
+const Transfer = async () => {
     const balance = await getBalance();
     const transactions = await getOnRampTransactions();
     return <div className="w-screen">
@@ -24,3 +24,4 @@ export default async function() {
         </div>
     </div>
 }
+export default Transfer;

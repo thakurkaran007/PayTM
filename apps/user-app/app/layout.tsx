@@ -5,7 +5,8 @@ import { SessionProvider } from "next-auth/react";
 import { Montserrat } from "next/font/google";
 
 const font = Montserrat({
-  weight: "400",
+  subsets: ["vietnamese"],
+  weight: "400"
 })
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

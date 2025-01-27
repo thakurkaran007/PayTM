@@ -1,4 +1,3 @@
-import { Header } from "@/components/button/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/src/components/card";
 
 const BalanceCard = ({ amount, locked }: { amount: number; locked: number }) => {

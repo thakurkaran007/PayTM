@@ -2,7 +2,7 @@
 
 import { Button } from "@repo/ui/src/components/button";
 import * as z from 'zod'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@repo/ui/src/components/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/src/components/card";
 import { Input } from "@repo/ui/src/components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
