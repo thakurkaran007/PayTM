@@ -17,12 +17,23 @@ model User {
   image             String?
   Balance           Balance?
   OnRampTransaction OnRampTransaction[]
+  sentTranfers      p2pTranfer[]        @relation("Sender")
+  receivedTranfers  p2pTranfer[]        @relation("Receiver")
 }
 
 model Merchant {
   id    String @id @default(cuid())
   name  String
   email String @unique
+}
+
+model p2pTranfer {
+  id         String @id @default(cuid())
+  amount     Int
+  senderId   String
+  receiverId String
+  sender     User   @relation("Sender", fields: [senderId], references: [id])
+  receiver   User   @relation("Receiver", fields: [receiverId], references: [id])
 }
 
 model OnRampTransaction {
