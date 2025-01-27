@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "private": true,
     "dependencies": {
+        "jotai": "^2.11.1"
     },
     "exports": {
-      "./balance": "./src/hooks/useBalance"
+        "./balance": "./src/hooks/useBalance"
     }
-  }
-  
+}
