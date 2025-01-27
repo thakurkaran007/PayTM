@@ -17,11 +17,18 @@ const signup = async(values: z.infer<typeof SignUpSchema>) => {
         return { error: "Passwords do not match" };
     }
     const hashedPassword = await bcrypt.hash(password1, 10);
-    await db.user.create({
+    const user = await db.user.create({
         data: {
             name,
             email,
             password: hashedPassword
+        }
+    })
+    await db.balance.create({
+        data: {
+            amount: 0,
+            userId: user.id,
+            locked: 0
         }
     })
     return { success: "Account Created Successfully!" };

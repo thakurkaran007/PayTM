@@ -11,15 +11,22 @@ app.post("/hdfcWebHook", async (req, res) => {
         userId: req.body.userId,
         amount: Number(req.body.amount),
     }
+
+    const balance = await db.balance.findUnique({
+        where: { userId: paymentInfo.userId }
+    });
+    if (!balance) {
+        throw new Error("Balance not found");
+    } 
     try {
         await db.$transaction([
             db.balance.update({
                 where: {
-                    userId: paymentInfo.userId
+                    id: balance.id,
                 },
                 data: {
                     amount: {
-                        increment: paymentInfo.amount
+                        increment: paymentInfo.amount*100
                     }
                 }
             }),
@@ -32,9 +39,11 @@ app.post("/hdfcWebHook", async (req, res) => {
                 }
             })
         ])
+        console.log("captured");
         res.status(200).json({ message: "captured" });
     } catch (error) {
-        res.status(500).json({ message: "Internal Server Error"})
+        console.log("error", error);
+        res.status(500).json({ message: error });
     }
 })
 
