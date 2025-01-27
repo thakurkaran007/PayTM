@@ -11,18 +11,11 @@ app.post("/hdfcWebHook", async (req, res) => {
         userId: req.body.userId,
         amount: Number(req.body.amount),
     }
-
-    const balance = await db.balance.findUnique({
-        where: { userId: paymentInfo.userId }
-    });
-    if (!balance) {
-        throw new Error("Balance not found");
-    } 
     try {
         await db.$transaction([
             db.balance.update({
                 where: {
-                    id: balance.id,
+                    userId: paymentInfo.userId
                 },
                 data: {
                     amount: {
