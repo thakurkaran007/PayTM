@@ -7,6 +7,7 @@ import { useState, useTransition } from "react";
 import { Input } from "@repo/ui/input";
 import { Label } from "@repo/ui/src/components/label";
 import { createOnRampTransaction } from "@/actions/onRampTransaction";
+import { set } from "zod";
 
 const SUPPORTED_BANKS = [
   { name: "HDFC Bank", redirectUrl: "https://netbanking.hdfcbank.com", imgPath: "https://cdn.brandfetch.io/idx4TDMW7R/w/134/h/134/theme/dark/icon.jpeg?c=1bfwsmEH20zzEfSNTed" },
@@ -28,7 +29,8 @@ export const AddMoney = () => {
       }
   
       await createOnRampTransaction(Number(amount), provider);
-  
+      setAmount("");
+      serProvider("");
       if (redirectUrl) {
         window.open(redirectUrl, "_blank");
       }
