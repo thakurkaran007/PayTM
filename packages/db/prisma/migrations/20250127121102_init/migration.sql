@@ -32,6 +32,7 @@ CREATE TABLE "p2pTranfer" (
     "amount" INTEGER NOT NULL,
     "senderId" TEXT NOT NULL,
     "receiverId" TEXT NOT NULL,
+    "startTime" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "p2pTranfer_pkey" PRIMARY KEY ("id")
 );

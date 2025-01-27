@@ -1,15 +1,16 @@
-import { OnRamp } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
 
-export const OnRampTransactions = ({
+export const P2pTransactions = ({
     transactions,
+    userId,
 }: {
     transactions: {
         time: Date;
         amount: number;
-        status: OnRamp; // Status should ideally be a string or enum like "Processing", "Failure", or "Success"
-        provider: string;
+        sender: string;
+        receiver: string;
     }[];
+    userId: string; 
 }) => {
     if (!transactions.length) {
         return (
@@ -36,13 +37,10 @@ export const OnRampTransactions = ({
             <CardContent>
                 <div className="pt-2">
                     {transactions.map((t, i) => {
-                        // Determine styles based on the transaction status
-                        const amountStyle =
-                            t.status === "Success"
-                                ? "text-green-600 font-bold"
-                                : t.status === "Failure"
-                                ? "text-red-600 font-bold"
-                                : "text-yellow-600 font-bold"; // For "Processing"
+                        const isSent = t.sender === userId; // Check if the transaction is sent by the user
+                        const amountStyle = isSent
+                            ? "text-red-600 font-bold" // Sent money
+                            : "text-green-600 font-bold"; // Received money
 
                         return (
                             <div
@@ -52,22 +50,17 @@ export const OnRampTransactions = ({
                                 {/* Transaction Details */}
                                 <div>
                                     <div className="text-sm font-medium text-gray-700">
-                                        Received INR
+                                        {isSent ? "Sent to" : "Received from"}{" "}
+                                        {isSent ? t.receiver : t.sender}
                                     </div>
                                     <div className="text-slate-600 text-xs">
-                                        {new Date(t.time).toDateString()}
-                                    </div>
-                                    <div className="text-xs text-gray-500">
-                                        Provider: {t.provider}
+                                        {new Date(t.time).toLocaleString()}
                                     </div>
                                 </div>
 
                                 {/* Transaction Amount */}
                                 <div className={`flex flex-col justify-center ${amountStyle}`}>
-                                    + Rs {t.amount / 100}
-                                    <span className="text-xs capitalize">
-                                        {t.status}
-                                    </span>
+                                    {isSent ? "-" : "+"} Rs {t.amount / 100}
                                 </div>
                             </div>
                         );

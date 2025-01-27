@@ -28,7 +28,14 @@ export const p2pTransaction = async (amount: number, email: string) => {
                 where: { userId:  receiver?.id },
                 data: { amount: { increment: amount*100 } }
             })
-
+            await db.p2pTranfer.create({
+                data: {
+                    amount: amount*100,
+                    startTime: new Date(),
+                    senderId: from,
+                    receiverId: receiver?.id
+                }
+            })
         })
         return { success: "Money Sent Successfully" };
     } catch (error) {

@@ -32,6 +32,7 @@ model p2pTranfer {
   amount     Int
   senderId   String
   receiverId String
+  startTime  DateTime
   sender     User   @relation("Sender", fields: [senderId], references: [id])
   receiver   User   @relation("Receiver", fields: [receiverId], references: [id])
 }

@@ -1,12 +1,13 @@
 import getBalance from "@/data/balance";
 import { AddMoney } from "../_components/AddMoney";
 import BalanceCard from "../_components/BalanceCard";
-import { OnRampTransactions } from "../_components/OnRampTransactions";
 import { getOnRampTransactions } from "@/data/transaction";
+import { OnRampTransactions } from "../_components/OnRampTransactions";
 
 const Transfer = async () => {
     const balance = await getBalance();
     const transactions = await getOnRampTransactions();
+
     return <div className="w-screen">
         <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-extrabold">
             Transfer

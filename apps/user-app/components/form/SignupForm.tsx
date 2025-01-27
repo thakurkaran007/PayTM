@@ -44,6 +44,12 @@ export const SignupForm = () => {
         return;
       }
       const res = await send(mail);
+      if (res.error) {
+        setSuccess("");
+        setError(res.error.toString());
+        form.reset();
+        return;
+      }
       if (res.success) {
         setSuccess(res.success);
         setCame(true);
