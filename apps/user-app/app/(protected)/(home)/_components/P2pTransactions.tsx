@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
 
 export const P2pTransactions = ({
@@ -7,8 +8,8 @@ export const P2pTransactions = ({
     transactions: {
         time: Date;
         amount: number;
-        sender: any;
-        receiver: any;
+        sender: User;
+        receiver: User;
     }[];
     userId: string; 
 }) => {
