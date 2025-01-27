@@ -11,8 +11,8 @@ export const p2pTransaction = async (amount: number, email: string) => {
         const from = session?.user.id;
         if (!from) return { error: "User not Found" };
         
-        const reciever = await getUserByEmail(email);
-        if (!reciever) return { error: "Reciever not found" };
+        const receiver = await getUserByEmail(email);
+        if (!receiver) return { error: "Receiver not found" };
         
         await db.$transaction(async (tx) => {
             await tx.$queryRaw`SELECT * FROM "Balance" WHERE userId = ${from} FOR UPDATE`; // Locking the particular row
@@ -25,7 +25,7 @@ export const p2pTransaction = async (amount: number, email: string) => {
                 data: { amount: { decrement: amount*100 } }
             })
             await db.balance.update({
-                where: { userId:  reciever?.id },
+                where: { userId:  receiver?.id },
                 data: { amount: { increment: amount*100 } }
             })
         })

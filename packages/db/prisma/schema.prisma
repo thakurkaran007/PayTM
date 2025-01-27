@@ -22,6 +22,8 @@ model User {
   Balance   Balance[]
   OnRampTransaction OnRampTransaction[]
   image     String?
+  sentTransfers    p2pTranfer[] @relation("Sender")
+  receivedTransfers p2pTranfer[] @relation("Receiver")
 }
 
 
@@ -41,6 +43,16 @@ model OnRampTransaction {
   userId    String
   user     User @relation(fields: [userId], references: [id])
 }
+
+model p2pTranfer {
+    id         String @id @default(cuid())
+    amount     Int
+    senderId   String
+    receiverId String
+    sender     User @relation("Sender", fields: [senderId], references: [id])
+    receiver   User @relation("Receiver", fields: [receiverId], references: [id])
+}
+
 
 model Balance {
   id       String   @id @default(cuid())
