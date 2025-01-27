@@ -11,13 +11,32 @@ export const getOnRampTransactions = async() => {
         provider: t.provider
     }))
 }
-export const getP2pTransactions = async() => {
+export const getP2pTransactions = async () => {
     const session = await auth();
-    const txns = await db.p2pTranfer.findMany({ where: { senderId: session?.user.id }, orderBy: { startTime: "asc" } });
-    return txns.map(t => ({
+    const userId = session?.user.id;
+
+    if (!userId) return [];
+
+    const txns = await db.p2pTranfer.findMany({
+        where: {
+            OR: [
+                { senderId: userId },
+                { receiverId: userId }
+            ]
+        },
+        orderBy: { startTime: "asc" },
+        select: {
+            startTime: true,
+            sender: true,
+            receiver: true,
+            amount: true
+        }
+    });
+
+    return txns.map((t) => ({
         time: t.startTime,
         amount: t.amount,
-        sender: t.senderId,
-        receiver: t.receiverId
-    }))
-}
+        sender: t.sender,
+        receiver: t.receiver
+    }));
+};

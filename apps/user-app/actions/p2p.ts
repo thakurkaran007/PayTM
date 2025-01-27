@@ -8,20 +8,21 @@ import { db } from "@repo/db/src";
 export const p2pTransaction = async (amount: number, email: string) => {
     try {
         const session = await auth();
-        const from = session?.user.id;
-        if (!from) return { error: "User not Found" };
+        const from = session?.user;
+        const fromId = from?.id;
+        if (!fromId) return { error: "User not Found" };
         
         const receiver = await getUserByEmail(email);
-        if (!receiver) return { error: "Receiver not found" };
+        if (!receiver) return { error: "Email not found" };
         
         await db.$transaction(async (tx) => {
-            await tx.$queryRaw`SELECT * FROM "Balance" WHERE userId = ${from} FOR UPDATE`; // Locking the particular row
+            tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${fromId} FOR UPDATE`;
 
             const balance = await getBalance();
             if (!balance || amount*100 > balance.amount) return { error: "Insufficient Balance" };
 
             await db.balance.update({
-                where: { userId: from },
+                where: { userId: fromId },
                 data: { amount: { decrement: amount*100 } }
             })
             await db.balance.update({
@@ -32,7 +33,7 @@ export const p2pTransaction = async (amount: number, email: string) => {
                 data: {
                     amount: amount*100,
                     startTime: new Date(),
-                    senderId: from,
+                    senderId: fromId,
                     receiverId: receiver?.id
                 }
             })

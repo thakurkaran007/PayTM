@@ -82,7 +82,7 @@ const SendMoney = () => {
                             name="amount"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Password</FormLabel>
+                                    <FormLabel>Amount</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}

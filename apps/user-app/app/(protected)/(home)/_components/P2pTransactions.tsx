@@ -7,8 +7,8 @@ export const P2pTransactions = ({
     transactions: {
         time: Date;
         amount: number;
-        sender: string;
-        receiver: string;
+        sender: any;
+        receiver: any;
     }[];
     userId: string; 
 }) => {
@@ -37,7 +37,7 @@ export const P2pTransactions = ({
             <CardContent>
                 <div className="pt-2">
                     {transactions.map((t, i) => {
-                        const isSent = t.sender === userId; // Check if the transaction is sent by the user
+                        const isSent = t.sender.id === userId; // Check if the transaction is sent by the user
                         const amountStyle = isSent
                             ? "text-red-600 font-bold" // Sent money
                             : "text-green-600 font-bold"; // Received money
@@ -51,7 +51,7 @@ export const P2pTransactions = ({
                                 <div>
                                     <div className="text-sm font-medium text-gray-700">
                                         {isSent ? "Sent to" : "Received from"}{" "}
-                                        {isSent ? t.receiver : t.sender}
+                                        {isSent ? t.receiver.name : t.sender.name}
                                     </div>
                                     <div className="text-slate-600 text-xs">
                                         {new Date(t.time).toLocaleString()}
