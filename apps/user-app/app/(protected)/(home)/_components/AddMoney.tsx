@@ -7,7 +7,6 @@ import { useState, useTransition } from "react";
 import { Input } from "@repo/ui/input";
 import { Label } from "@repo/ui/src/components/label";
 import { createOnRampTransaction } from "@/actions/onRampTransaction";
-import Image from "next/image";
 
 const SUPPORTED_BANKS = [
   { name: "HDFC Bank", redirectUrl: "https://netbanking.hdfcbank.com", imgPath: "https://cdn.brandfetch.io/idx4TDMW7R/w/134/h/134/theme/dark/icon.jpeg?c=1bfwsmEH20zzEfSNTed" },
@@ -79,7 +78,7 @@ export const AddMoney = () => {
                   {SUPPORTED_BANKS.map((bank) => (
                     <SelectItem key={bank.name} value={bank.name}>
                       <div className="flex items-center space-x-2">
-                        <Image src={bank.imgPath} alt={bank.name} className="w-6 h-6" />
+                        <img src={bank.imgPath} alt={bank.name} className="w-6 h-6" />
                         <span>{bank.name}</span>
                       </div>
                     </SelectItem>
