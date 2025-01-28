@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "start": "cd ./apps/user-app && npm run dev",
     "db:generate": "cd db/packages/db && npx prisma generate",
     "dev": "turbo dev",
     "lint": "turbo lint",
