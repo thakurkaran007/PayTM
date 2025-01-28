@@ -4,7 +4,7 @@
   "scripts": {
     "build": "turbo build",
     "start": "cd ./apps/user-app && npm run dev",
-    "db:generate": "cd db/packages/db && npx prisma generate",
+    "db:generate": "cd packages/db && npx prisma generate",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
