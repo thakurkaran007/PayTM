@@ -28,3 +28,17 @@ jobs:
 
             - name: Verify Pushed Image
               run: docker pull ${{ secrets.DOCKER_USERNAME }}/paytm:latest
+
+            - name: Deploy to EC2
+              uses: appleboy/ssh-action@master
+              with: 
+                host: ${{ secrets.SSH_HOST }}
+                username: ${{ secrets.SSH_USERNAME }}
+                key: ${{ secrets.SSH_KEY }}
+                script: |
+                    sudo docker pull ${{ secrets.DOCKER_USERNAME }}/paytm:latest
+                    sudo docker stop paytm || true
+                    sudo docker rm paytm || true
+                    sudo docker compose up
+
+
