@@ -5,7 +5,6 @@ import { db } from '@repo/db/src'
 import { getUserByID } from '@/data/user'
 import { UserRole } from '@prisma/client'
 
-
 export const {  
     handlers: { GET, POST },
     auth,
