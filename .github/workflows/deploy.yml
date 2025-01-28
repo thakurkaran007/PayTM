@@ -37,8 +37,8 @@ jobs:
                 key: ${{ secrets.SSH_KEY }}
                 script: |
                     sudo docker pull ${{ secrets.DOCKER_USERNAME }}/paytm:latest
-                    sudo docker stop web-app || true
-                    sudo docker rm web-app || true
+                    sudo docker stop paytm || true
+                    sudo docker rm paytm || true
                     sudo docker compose up
-                    rm -f key.pem
-            
+
+
