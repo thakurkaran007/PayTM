@@ -1,0 +1,22 @@
+{
+  "name": "primary-merchant",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc -b && node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@repo/db": "*",
+    "@types/express": "^5.0.1",
+    "express": "^5.1.0"
+  },
+  "dependencies": {
+    "@types/jsonwebtoken": "^9.0.9",
+    "cookie": "^1.0.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

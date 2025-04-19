@@ -16,22 +16,37 @@ const signup = async(values: z.infer<typeof SignUpSchema>) => {
     if (password1 !== password2) {
         return { error: "Passwords do not match" };
     }
-    const hashedPassword = await bcrypt.hash(password1, 10);
-    const user = await db.user.create({
-        data: {
-            name,
-            email,
-            password: hashedPassword
-        }
-    })
-    await db.balance.create({
-        data: {
-            amount: 0,
-            userId: user.id,
-            locked: 0
-        }
-    })
-    return { success: "Account Created Successfully!" };
+    try {
+        const hashedPassword = await bcrypt.hash(password1, 10);
+
+        await db.$transaction(async (tx) => {
+            const user = await tx.user.create({
+                data: {
+                    name,
+                    email,
+                    password: hashedPassword
+                }
+            })
+            await tx.balance.create({
+                data: {
+                    amount: 0,
+                    userId: user.id,
+                    locked: 0
+                }
+            })
+            await tx.userAccount.create({
+                data: {
+                    userId: user.id
+                }
+            })
+        })
+
+        return { success: "Account Created Successfully!" };
+    } catch (error) {
+        console.error(error);
+        return { error: "An error occurred while creating the user" };
+        
+    }
 }
 
 export default signup;
