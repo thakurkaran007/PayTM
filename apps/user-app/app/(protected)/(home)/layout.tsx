@@ -7,7 +7,7 @@ export default function Layout({
 }): JSX.Element {
   return (
     <div className="flex">
-      <div className="w-72 border-r border-slate-300 min-h-screen mr-4 pt-28">
+      <div className="w-72 border-r border-slate-300 min-h-screen mr-4 pt-28 overflow-hidden">
         <div>
           <SidebarItem href={"/dashboard"} icon={<HomeIcon />} title="Home" />
           <SidebarItem href={"/transfer"} icon={<TransferIcon />} title="Transfer" />

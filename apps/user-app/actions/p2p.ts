@@ -7,6 +7,7 @@ import { db } from "@repo/db/src";
 
 export const p2pTransaction = async (amount: number, email: string) => {
     try {
+        console.log("P2P Transaction", amount, email);
         const session = await auth();
         const from = session?.user;
         const fromId = from?.id;
@@ -36,9 +37,10 @@ export const p2pTransaction = async (amount: number, email: string) => {
                     senderId: fromId,
                     receiverId: receiver.id,
                     amount: amount * 100,
-                    startTime: new Date(),
+                    startTime: new Date()
                 }
-            });
+            })
+        
     })
         return { success: "Money Sent Successfully" };
     } catch (error) {

@@ -60,6 +60,7 @@ model Merchant {
   id    String @id @default(cuid())
   name  String
   email String @unique
+  password String?
   merchantAccount  merchantAccount[]
 }
 
