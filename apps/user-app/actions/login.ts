@@ -8,8 +8,8 @@ import { LoginSchema } from "@/schema";
 import { AuthError } from "next-auth";
 import * as z from "zod";
 import bcrypt from "bcryptjs";
-import { getVerificationTokenByEmail } from "@/data/verification-token";
-import { db } from "@repo/db/src";
+// import { getVerificationTokenByEmail } from "@/data/verification-token";
+// import { db } from "@repo/db/src";
 
 export const login = async(values: z.infer<typeof LoginSchema>) => {
     const validation = LoginSchema.safeParse(values);
@@ -29,22 +29,22 @@ export const login = async(values: z.infer<typeof LoginSchema>) => {
     if (!passVerify) {
         return { error: "Wrong Password" };
     }
-    if (!existingUser.emailVerified) {
-        const verificationToken = await generatetVerificationToken(email);
-        await sendVerificationMail(email, verificationToken.token);
-        return { success: "Confirmation email Sent" };
-    } else {
-        const token = await getVerificationTokenByEmail(email);
-        if (token) {
-            const hasExpired = new Date(token.expires) < new Date();
-            if (hasExpired) {
-                await db.verificationToken.delete({ where: { id: token.id } });
-                const verificationToken = await generatetVerificationToken(email);
-                await sendVerificationMail(email, verificationToken.token);
-                return { success: "Confirmation email Sent" };
-            }
-        }
-    }
+    // if (!existingUser.emailVerified) {
+    //     const verificationToken = await generatetVerificationToken(email);
+    //     await sendVerificationMail(email, verificationToken.token);
+    //     return { success: "Confirmation email Sent" };
+    // } else {
+    //     const token = await getVerificationTokenByEmail(email);
+    //     if (token) {
+    //         const hasExpired = new Date(token.expires) < new Date();
+    //         if (hasExpired) {
+    //             await db.verificationToken.delete({ where: { id: token.id } });
+    //             const verificationToken = await generatetVerificationToken(email);
+    //             await sendVerificationMail(email, verificationToken.token);
+    //             return { success: "Confirmation email Sent" };
+    //         }
+    //     }
+    // }
     
     try {
         await signIn("credentials", {

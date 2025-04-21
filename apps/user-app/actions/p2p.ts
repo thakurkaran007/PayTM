@@ -20,24 +20,26 @@ export const p2pTransaction = async (amount: number, email: string) => {
 
             const balance = await getBalance();
             if (!balance || amount*100 > balance.amount) return { error: "Insufficient Balance" };
-
-            await db.balance.update({
-                where: { userId: fromId },
-                data: { amount: { decrement: amount*100 } }
-            })
-            await db.balance.update({
-                where: { userId:  receiver?.id },
-                data: { amount: { increment: amount*100 } }
-            })
-            await db.p2pTranfer.create({
+            
+            await tx.$queryRaw`
+                UPDATE "Balance" 
+                SET "amount" = "amount" - ${amount * 100} 
+                WHERE "userId" = ${fromId}
+            `;
+            await tx.$queryRaw`
+                UPDATE "Balance" 
+                SET "amount" = "amount" + ${amount * 100} 
+                WHERE "userId" = ${receiver?.id}
+            `;
+            await tx.p2pTranfer.create({
                 data: {
-                    amount: amount*100,
-                    startTime: new Date(),
                     senderId: fromId,
-                    receiverId: receiver?.id
+                    receiverId: receiver.id,
+                    amount: amount * 100,
+                    startTime: new Date(),
                 }
-            })
-        })
+            });
+    })
         return { success: "Money Sent Successfully" };
     } catch (error) {
         return { error: error };

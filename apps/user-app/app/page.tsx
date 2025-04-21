@@ -1,4 +1,5 @@
 import { LoginButton } from "@/components/auth/login-button";
+import { getUserByID } from "@/data/user";
 import { Button } from "@repo/ui/src/components/button";
 import { cn } from "@repo/ui/src/lib/utils";
 import { Poppins } from "next/font/google";
@@ -9,7 +10,6 @@ const font = Poppins({
 })
 
 const Home = () => {
-
   return (
       <div className="flex justify-center items-center h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800"> 
           <div className="flex justify-center flex-col items-center space-y-6">

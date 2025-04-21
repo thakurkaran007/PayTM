@@ -3,15 +3,21 @@
     "version": "0.0.0",
     "private": true,
     "type": "module",
+    "scripts": {
+        "build": "tsc -b && node dist/seed.js",
+        "start": "node dist/createTable.js && node dist/seed.js"
+    },
     "exports": {
-      "./index": "./src/*",
-      "./dist": "./dist/index.js"
+        "./index": "./src/*",
+        "./dist": "./dist/index.js"
     },
     "dependencies": {
-      "@prisma/client": "^6.1.0"
+        "@prisma/client": "^6.1.0",
+        "@types/pg": "^8.11.13",
+        "pg": "^8.14.1"
     },
     "devDependencies": {
-      "prisma": "^6.1.0",
-      "typescript": "^5.5.4"
+        "prisma": "^6.1.0",
+        "typescript": "^5.5.4"
     }
-  }
+}
