@@ -23,18 +23,6 @@ model User {
   userAccount       userAccount[]
 }
 
-model merchantAccount {
-  id                  String @id @default(cuid())
-  merchantId          String
-  amount              Int    @default(0)     
-  merchant            Merchant   @relation(fields: [merchantId], references: [id])
-}
-model userAccount {
-  id                  String @id @default(cuid())
-  userId              String
-  amount              Int         @default(0)
-  user                User   @relation(fields: [userId], references: [id])
-}
 
 model Account { 
   id                 String  @id @default(cuid()) @map("_id")
@@ -111,4 +99,17 @@ enum OnRamp {
   Success
   Failure
   Processing
+}
+
+model merchantAccount {
+  id                  String @id @default(cuid())
+  merchantId          String
+  amount              Int    @default(0)     
+  merchant            Merchant   @relation(fields: [merchantId], references: [id])
+}
+model userAccount {
+  id                  String @id @default(cuid())
+  userId              String
+  amount              Int         @default(0)
+  user                User   @relation(fields: [userId], references: [id])
 }

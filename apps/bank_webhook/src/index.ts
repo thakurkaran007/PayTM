@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 
-app.post("/hdfcWebHook", async (req, res) => {
+app.post("/hdfc-web-hook", async (req, res) => {
     const paymentInfo = {
         token: req.body.token,
         userId: req.body.userId,
@@ -23,6 +23,11 @@ app.post("/hdfcWebHook", async (req, res) => {
           SET status = 'Success'
           WHERE token = ${paymentInfo.token}
         `,
+        db.$executeRaw`
+          UPDATE "Balance"
+          SET locked = locked - ${paymentInfo.amount * 100}
+          WHERE "userId" = ${paymentInfo.userId}
+        `
         ]);
         console.log("captured");
         res.status(200).json({ message: "captured" });

@@ -4,6 +4,7 @@ import { auth } from "@/auth"
 import getBalance from "@/data/balance";
 import { getUserByEmail } from "@/data/user";
 import { db } from "@repo/db/src";
+import { v4 as uuidv4 } from "uuid";
 
 export const p2pTransaction = async (amount: number, email: string) => {
     try {
@@ -32,15 +33,10 @@ export const p2pTransaction = async (amount: number, email: string) => {
                 SET "amount" = "amount" + ${amount * 100} 
                 WHERE "userId" = ${receiver?.id}
             `;
-            await tx.p2pTranfer.create({
-                data: {
-                    senderId: fromId,
-                    receiverId: receiver.id,
-                    amount: amount * 100,
-                    startTime: new Date()
-                }
-            })
-        
+            await tx.$executeRaw`
+                INSERT INTO "p2pTranfer" (id, "senderId", "receiverId", amount, "startTime")
+                VALUES (${uuidv4()}, ${fromId}, ${receiver?.id}, ${amount * 100}, ${new Date()})
+            `
     })
         return { success: "Money Sent Successfully" };
     } catch (error) {

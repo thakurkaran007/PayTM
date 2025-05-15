@@ -2,7 +2,7 @@
 import { signIn } from "@/auth";
 import { getUserByEmail } from "@/data/user";
 import { sendVerificationMail } from "@/lib/mail";
-import { generatetVerificationToken } from "@/lib/tokens";
+import { generateVerificationToken } from "@/lib/tokens";
 import { DEFAULT_LOGIN_REDIRECT } from "@/route";
 import { LoginSchema } from "@/schema";
 import { AuthError } from "next-auth";
@@ -29,17 +29,24 @@ export const login = async(values: z.infer<typeof LoginSchema>) => {
     if (!passVerify) {
         return { error: "Wrong Password" };
     }
+    console.log("existingUser", existingUser);
     if (!existingUser.emailVerified) {
-        const verificationToken = await generatetVerificationToken(email);
+        const verificationToken = await generateVerificationToken(email);
+        console.log("verificationToken", verificationToken);
+        if (!verificationToken) return;
         await sendVerificationMail(email, verificationToken.token);
+        console.log("mail Sent");
         return { success: "Confirmation email Sent" };
     } else {
         const token = await getVerificationTokenByEmail(email);
         if (token) {
             const hasExpired = new Date(token.expires) < new Date();
             if (hasExpired) {
-                await db.verificationToken.delete({ where: { id: token.id } });
-                const verificationToken = await generatetVerificationToken(email);
+                await db.$executeRaw`
+                    DELETE FROM "VerificationToken" WHERE "email" = ${email}
+                `;
+                const verificationToken = await generateVerificationToken(email);
+                if (!verificationToken) return;
                 await sendVerificationMail(email, verificationToken.token);
                 return { success: "Confirmation email Sent" };
             }
