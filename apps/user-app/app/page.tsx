@@ -1,5 +1,4 @@
 import { LoginButton } from "@/components/auth/login-button";
-import { getUserByID } from "@/data/user";
 import { Button } from "@repo/ui/src/components/button";
 import { cn } from "@repo/ui/src/lib/utils";
 import { Poppins } from "next/font/google";

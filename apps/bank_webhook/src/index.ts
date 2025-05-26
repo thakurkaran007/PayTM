@@ -13,6 +13,7 @@ app.post("/hdfc-web-hook", async (req, res) => {
     }
     try {
       await db.$transaction([
+        db.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${paymentInfo.userId} FOR UPDATE`,
         db.$queryRaw`
           UPDATE "Balance"
           SET amount = amount + ${paymentInfo.amount * 100}

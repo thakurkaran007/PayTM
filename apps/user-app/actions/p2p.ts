@@ -19,6 +19,7 @@ export const p2pTransaction = async (amount: number, email: string) => {
         
         await db.$transaction(async (tx) => {
             tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${fromId} FOR UPDATE`;
+            tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${receiver.id} FOR UPDATE`;
 
             const balance = await getBalance();
             if (!balance || amount*100 > balance.amount) return { error: "Insufficient Balance" };
