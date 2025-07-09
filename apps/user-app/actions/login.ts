@@ -29,22 +29,24 @@ export const login = async(values: z.infer<typeof LoginSchema>) => {
     if (!passVerify) {
         return { error: "Wrong Password" };
     }
-    console.log("existingUser", existingUser);
+
     if (!existingUser.emailVerified) {
         const verificationToken = await generateVerificationToken(email);
-        console.log("verificationToken", verificationToken);
         if (!verificationToken) return;
         await sendVerificationMail(email, verificationToken.token);
-        console.log("mail Sent");
         return { success: "Confirmation email Sent" };
     } else {
         const token = await getVerificationTokenByEmail(email);
         if (token) {
             const hasExpired = new Date(token.expires) < new Date();
             if (hasExpired) {
-                await db.$executeRaw`
-                    DELETE FROM "VerificationToken" WHERE "email" = ${email}
-                `;
+                if (token && token.id) {
+                    await db.verificationToken.delete({
+                        where: {
+                            id: token.id
+                        }
+                    });
+                }
                 const verificationToken = await generateVerificationToken(email);
                 if (!verificationToken) return;
                 await sendVerificationMail(email, verificationToken.token);

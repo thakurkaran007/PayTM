@@ -22,23 +22,24 @@ const signup = async (values: z.infer<typeof SignUpSchema>) => {
     try {
         const hashedPassword = await bcrypt.hash(password1, 10);
 
-        const id = uuidv4(); // generate ID manually
 
         await db.$transaction(async (tx) => {
-            const users = await tx.$queryRaw<User[]>`
-                INSERT INTO "User" (id, name, email, password)
-                VALUES (${id}, ${name}, ${email}, ${hashedPassword})
-                RETURNING *;
-            `;
-            const user = users[0];
+            const user = await tx.user.create({
+                data: {
+                    name,
+                    email,
+                    password: hashedPassword,
+                }  
+            })
             if (!user) throw new Error("User insert failed");
-
-            await tx.$executeRaw`
-                INSERT INTO "Balance" (id, amount, locked, "userId")
-                VALUES (${id}, 10000000, 0, ${user.id});
-            `;
+            await tx.balance.create({
+                data: {
+                    amount: 10000000, 
+                    locked: 0,
+                    userId: user.id, 
+                }
+            });
         });
-
         return { success: "Account Created Successfully!" };
     } catch (error) {
         console.error(error);
