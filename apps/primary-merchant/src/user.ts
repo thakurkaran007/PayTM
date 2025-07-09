@@ -70,6 +70,7 @@ router.post("/transfer", authMiddleware, async (req, res) => {
         }
 
         await tx.$executeRaw`SET * FROM users WHERE id = ${id} FOR UPDATE`; //Lock the row
+        await tx.$executeRaw`SET * FROM merchants WHERE id = ${merchantId} FOR UPDATE`; //Lock the row
 
         await tx.userAccount.update({
             where: {

@@ -48,7 +48,7 @@ router.post("/signin", async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || "secret")
 
     res.setHeader("Set-Cookie", serialize("token", token, {
-        sameSite: "none",
+        sameSite: true,
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
         maxAge: 60 * 60 * 24
