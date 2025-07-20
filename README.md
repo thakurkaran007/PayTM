@@ -1,4 +1,4 @@
-# 💸 PayTM Clone – Peer-to-Peer (P2P) Banking System
+# 💸 Peer-to-Peer (P2P) Banking System
 
 A secure, scalable, and realistic simulation of a digital wallet system, inspired by PayTM. Users can sign up, deposit money, and transfer funds to other users in real-time, all while maintaining transactional integrity and balance safety.
 
