@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { merchantRouter } from './merchant';
+import { merchantRouter } from './merchant.js';
+;
 
 const app = express();  
 const PORT = process.env.PORT || 3002;

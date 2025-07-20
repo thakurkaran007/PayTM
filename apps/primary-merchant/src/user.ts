@@ -3,7 +3,8 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
-import { authMiddleware } from "./auth";
+import { authMiddleware } from "./auth.js";
+
 
 const router = Router();
 
